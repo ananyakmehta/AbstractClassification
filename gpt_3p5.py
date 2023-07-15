@@ -1,7 +1,8 @@
+import os
 import openai
 import prompts
 
-openai.api_key = "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"
+openai.api_key = os.environ["OPENAI_API_KEY"]
 gpt_prompt = []
 
 def gpt_3p5_turbo_request(prompt, temperature):
