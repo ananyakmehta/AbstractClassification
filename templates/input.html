@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Provide a title and abstract for classification{% endblock %}</h1>
+    <form method="post">
+        <b>Model specifications</b>
+        <br>
+        <label for="model">Choose a LLM model</label>
+        <select name="model" id="model">
+            <option value="Model A" selected>Model A</option>
+            <option value="Model B">Model B</option>
+        </select>
+        <br>
+        <label for="temperature">Temperature (deterministic ... random)</label>
+        <input name="temperature" type="number" step="0.1" id="temperature"
+        min="0" max="2" value="1">
+        <br>
+        <br>
+        <label for="title">Research Title</label>
+        <br>
+        <input type="text" name="title"
+               placeholder="Title goes here"
+               value="{{ request.form['title'] }}"></input>
+        <br>
+
+        <label for="content">Research Abstract</label>
+        <br>
+        <textarea name="content"
+                  placeholder="Abstract goes here"
+                  rows="15"
+                  cols="60"
+                  >{{ request.form['content'] }}</textarea>
+        <br>
+        <button type="submit">Classify</button>
+    </form>
+{% endblock %}
