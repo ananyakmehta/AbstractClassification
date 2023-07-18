@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
-import davinci
-import gpt_3p5
+import framework.davinci as davinci
+import framework.gpt_3p5 as gpt_3p5
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'df0331cefc6c2b9a5d0208a726a5d1c0fd37324feba25506'
@@ -9,6 +9,41 @@ output = []
 @app.route('/')
 def index():
     return render_template('result.html', messages=output)
+
+def map_model_output(model_dict):
+    display = [
+            {'title': 'Title',
+             'content': 'Abstract'},
+            {'title': 'PublicationType',
+             'content': ''},
+            {'title': 'DataType',
+             'content': ''},
+            {'title': 'Population',
+             'content': ''},
+            {'title': 'Subpopulation',
+             'content': ''},
+            {'title': 'Purpose',
+             'content': ''},
+            {'title': 'Recording Type',
+             'content': ''},
+            {'title': 'Recording Tech',
+             'content': ''},
+            {'title': 'Brain Signal',
+             'content': ''},
+            {'title': 'Paradigm',
+             'content': ''},
+            {'title': 'Application',
+             'content': ''},
+            {'title': 'Contribution',
+             'content': ''},
+            {'title': 'Sub-Contribution',
+             'content': ''}
+            ]
+    display[0]['title'] = model_dict['Title']
+    display[0]['content'] = model_dict['Abstract']
+    for i in range(1,13):
+        display[i]['content'] = model_dict[display[i]['title']]
+    return display
 
 @app.route('/classify/', methods=('GET', 'POST'))
 def classify():
@@ -27,9 +62,12 @@ def classify():
             model = request.form.get('model')
             temperature = float(request.form.get('temperature'))
             if model == "Model A":
-                output = gpt_3p5.model_gpt_3p5_turbo(title, abstract, temperature)
+                model_dict = gpt_3p5.model_gpt_3p5_turbo(title, abstract,
+                                                         temperature)
+                output = map_model_output(model_dict)
             elif model == "Model B":
-                output = davinci.model_davinci(title, abstract, temperature)
+                model_dict = davinci.model_davinci(title, abstract, temperature)
+                output = map_model_output(model_dict)
 
             return redirect(url_for('index'))
 

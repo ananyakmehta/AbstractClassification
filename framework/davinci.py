@@ -1,6 +1,6 @@
 import os
 import openai
-import prompts
+import framework.prompts as prompts
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -16,98 +16,98 @@ def davinci_request(prompt, temperature):
     return response.choices[0].text.strip()
 
 def model_davinci(title, abstract, temperature):
-    ans = [{'title': 'Title',
-             'content': 'Abstract'},
-            {'title': 'Publication type',
-             'content': ''},
-            {'title': 'Data Type',
-             'content': ''},
-            {'title': 'Population',
-             'content': ''},
-            {'title': 'Sub-population',
-             'content': ''},
-            {'title': 'Application',
-             'content': ''},
-            {'title': 'Recording type',
-             'content': ''},
-            {'title': 'Recording method',
-             'content': ''},
-            {'title': 'Signal',
-             'content': ''},
-            {'title': 'Paradigm',
-             'content': ''},
-            {'title': 'Purpose',
-             'content': ''},
-            {'title': 'Contribution',
-             'content': ''},
-            {'title': 'Sub-contribution',
-             'content': ''}
-            ]
+    ans = {'Title': '',
+           'Abstract': '',
+           'PublicationType': '',
+           'DataType': '',
+           'Population': '',
+           'Subpopulation': '',
+           'Purpose': '',
+           'Recording Type': '',
+           'Recording Tech': '',
+           'Brain Signal': '',
+           'Paradigm': '',
+           'Application': '',
+           'Contribution': '',
+           'Sub-Contribution': ''}
     prompts.init()
-    ans[0]['title'] = title
-    ans[0]['content'] = abstract
+    ans['Title'] = title
+    ans['Abstract'] = abstract
 
-    for i in range(13):
-        if prompts.q[i] == "Reserved":
-            continue
-        #print(prompts.q[i])
-        ans[i]['content'] = davinci_request(abstract+prompts.q[i], temperature)
-        print(ans[i]['content'])
+    ans['PublicationType'] = davinci_request(abstract+prompts.q[1], temperature)
+    print(ans['PublicationType'])
 
-    # Add more questions based on the above responses
+    ans['DataType'] = davinci_request(abstract+prompts.q[2], temperature)
+    print(ans['DataType'])
+
+    ans['Population'] = davinci_request(abstract+prompts.q[3], temperature)
+    print(ans['Population'])
+
     # Population: Animal, Clinical, Healthy, Other
-    if ans[3]['content'] == "Animal":
+    if ans['Population'] == "Animal":
         question = prompts.q_subpop[0]
-    elif ans[3]['content'] == "Clinical":
+    elif ans['Population'] == "Clinical":
         question = prompts.q_subpop[1]
-    elif ans[3]['content'] == "Healthy":
+    elif ans['Population'] == "Healthy":
         question = prompts.q_subpop[2]
-    elif ans[3]['content'] == "Other":
+    elif ans['Population'] == "Other":
         question = prompts.q_subpop[3]
+    ans['Subpopulation'] = davinci_request(abstract+question, temperature)
+    print(ans['Subpopulation'])
 
-    #print(question)
-    ans[4]['content'] = davinci_request(abstract+question, temperature)
-    print(ans[4]['content'])
+    ans['Purpose'] = davinci_request(abstract+prompts.q[5], temperature)
+    print(ans['Purpose'])
+
+    ans['Recording Type'] = davinci_request(abstract+prompts.q[6], temperature)
+    print(ans['Recording Type'])
+
+    ans['Recording Tech'] = davinci_request(abstract+prompts.q[7], temperature)
+    print(ans['Recording Tech'])
+
+    ans['Brain Signal'] = davinci_request(abstract+prompts.q[8], temperature)
+    print(ans['Brain Signal'])
 
     # Signals: Attention, Auditory, Error, Frontal, Hybrid, Motor, Other,
     # SCP, Visual
-    if ans[8]['content'] == "Attention":
+    if ans['Brain Signal'] == "Attention":
         question = prompts.q_sigpdim[0]
-    elif ans[8]['content'] == "Auditory":
+    elif ans['Brain Signal'] == "Auditory":
         question = prompts.q_sigpdim[1]
-    elif ans[8]['content'] == "Error":
+    elif ans['Brain Signal'] == "Error":
         question = prompts.q_sigpdim[2]
-    elif ans[8]['content'] == "Frontal":
+    elif ans['Brain Signal'] == "Frontal":
         question = prompts.q_sigpdim[3]
-    elif ans[8]['content'] == "Hybrid":
+    elif ans['Brain Signal'] == "Hybrid":
         question = prompts.q_sigpdim[4]
-    elif ans[8]['content'] == "Motor":
+    elif ans['Brain Signal'] == "Motor":
         question = prompts.q_sigpdim[5]
-    elif ans[8]['content'] == "Other":
+    elif ans['Brain Signal'] == "Other":
         question = prompts.q_sigpdim[6]
-    elif ans[8]['content'] == "SCP":
+    elif ans['Brain Signal'] == "SCP":
         question = prompts.q_sigpdim[7]
-    elif ans[8]['content'] == "Visual":
+    elif ans['Brain Signal'] == "Visual":
         question = prompts.q_sigpdim[8]
+    ans['Paradigm'] = davinci_request(abstract+question, temperature)
+    print(ans['Paradigm'])
 
-    #print(question)
-    ans[9]['content'] = davinci_request(abstract+question, temperature)
-    print(ans[9]['content'])
+    ans['Application'] = davinci_request(abstract+prompts.q[10], temperature)
+    print(ans['Application'])
+
+    ans['Contribution'] = davinci_request(abstract+prompts.q[11], temperature)
+    print(ans['Contribution'])
 
     # Contributions: Applied Research, Basic Research,
     # Experimental Development, Support
-    if ans[11]['content'] == "Applied Research":
+    if ans['Contribution'] == "Applied Research":
         question = prompts.q_subctrb[0]
-    elif ans[11]['content'] == "Basic Research":
+    elif ans['Contribution'] == "Basic Research":
         question = prompts.q_subctrb[1]
-    elif ans[11]['content'] == "Experimental Development":
+    elif ans['Contribution'] == "Experimental Development":
         question = prompts.q_subctrb[2]
-    elif ans[11]['content'] == "Support":
+    elif ans['Contribution'] == "Support":
         question = prompts.q_subctrb[3]
-
-    #print(question)
-    ans[12]['content'] = davinci_request(abstract+question, temperature)
-    print(ans[12]['content'])
+    ans['Sub-Contribution'] = davinci_request(abstract+question, temperature)
+    print(ans['Sub-Contribution'])
     return ans
 
 if __name__ == "__main__":
