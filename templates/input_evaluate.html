@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Specify the models and parameters for evaluation{% endblock %}</h1>
+    <form method="post">
+        <b>Choose a LLM model</b>
+        <br>
+	<label class="container">Model A
+  		<input type="checkbox" name="model1" checked="checked">
+  		<span class="checkmark"></span>
+	</label>
+	<label class="container">Model B
+		<input type="checkbox" name="model2" checked="checked">
+		<span class="checkmark"></span>
+	</label>
+        <br>
+        <br>
+        <b>Choose a temperature range (deterministic ... random)</b>
+        <br>
+        Min<input name="mintemp" type="number" step="0.1" id="mintemp"
+        min="0" max="2" value="0">
+        Max<input name="maxtemp" type="number" step="0.1" id="maxtemp"
+        min="0" max="2" value="2">
+        <br>
+        <br>
+        <button type="submit">Evaluate</button>
+    </form>
+{% endblock %}

@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <nav>
-	<a href="{{ url_for('classify') }}">Classify another abstract</a>
-    </nav>
-    <hr>
     {% for message in messages %}
         <div class='message'>
             <h3>{{ message['title'] }}</h3>
