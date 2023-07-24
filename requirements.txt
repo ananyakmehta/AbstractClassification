@@ -1,3 +1,4 @@
-openai
 matplotlib
+openai
+tenacity
 Flask==2.1.0

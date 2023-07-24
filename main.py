@@ -47,36 +47,51 @@ def plot_model_accuracy():
 def map_model_output(model_dict):
     display = [
             {'title': 'Title',
-             'content': 'Abstract'},
+             'content': 'Summary',
+             'extra': 'Abstract'},
             {'title': 'PublicationType',
-             'content': ''},
+             'content': '',
+             'extra': ''},
             {'title': 'DataType',
-             'content': ''},
+             'content': '',
+             'extra': ''},
             {'title': 'Population',
-             'content': ''},
+             'content': '',
+             'extra': ''},
             {'title': 'Subpopulation',
-             'content': ''},
+             'content': '',
+             'extra': ''},
             {'title': 'Purpose',
-             'content': ''},
-            {'title': 'Recording Type',
-             'content': ''},
-            {'title': 'Recording Tech',
-             'content': ''},
-            {'title': 'Brain Signal',
-             'content': ''},
+             'content': '',
+             'extra': ''},
+            {'title': 'RecordingType',
+             'content': '',
+             'extra': ''},
+            {'title': 'RecordingTech',
+             'content': '',
+             'extra': ''},
+            {'title': 'BrainSignal',
+             'content': '',
+             'extra': ''},
             {'title': 'Paradigm',
-             'content': ''},
+             'content': '',
+             'extra': ''},
             {'title': 'Application',
-             'content': ''},
+             'content': '',
+             'extra': ''},
             {'title': 'Contribution',
-             'content': ''},
-            {'title': 'Sub-Contribution',
-             'content': ''}
+             'content': '',
+             'extra': ''},
+            {'title': 'SubContribution',
+             'content': '',
+             'extra': ''},
             ]
     display[0]['title'] = model_dict['Title']
-    display[0]['content'] = model_dict['Abstract']
+    display[0]['content'] = model_dict['Summary']
+    display[0]['extra'] = model_dict['Abstract']
     for i in range(1,13):
         display[i]['content'] = model_dict[display[i]['title']]
+        display[i]['extra'] = model_dict[display[i]['title']+'Reason']
     return display
 
 @app.route('/')
@@ -94,13 +109,12 @@ def classify():
         elif not abstract:
             flash('Abstract is required!')
         else:
-            title = title + "\n"
-            abstract = abstract + "\n"
+            title = "Title: " + title + "\n"
+            abstract = "Abstract: " + abstract + "\n"
             model = request.form.get('model')
             temperature = float(request.form.get('temperature'))
             if model == "Model A":
-                model_dict = gpt_3p5.model_gpt_3p5_turbo(title, abstract,
-                                                         temperature)
+                model_dict = gpt_3p5.classify_abstract(title, abstract, temperature)
                 output = map_model_output(model_dict)
             elif model == "Model B":
                 model_dict = davinci.model_davinci(title, abstract, temperature)
