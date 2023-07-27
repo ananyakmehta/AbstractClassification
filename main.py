@@ -45,25 +45,10 @@ def plot_model_accuracy():
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return data
 
-@app.route('/')
-def index():
-    return redirect(url_for('classify'))
-
-@app.route('/answer/<vector>/<title>/<abstract>/<temperature>/<parentvector>', methods=('GET', 'POST'))
-def answer(vector, title, abstract, temperature, parentvector=None):
-    # POST request
-    if request.method == 'POST':
-        print(request.get_json())  # parse as JSON
-        return 'OK', 200
-
-    # GET request
-    prompts.init()
-    temperature = float(temperature)
+def get_ask(vector, parentvector):
     if vector == 'Summary':
-        return gpt_3p5.get_abstract_summary(title, abstract, temperature)
-
-    debug = False
-    if vector == 'PublicationType':
+        ask = "Summarize the abstract for a high school student."
+    elif vector == 'PublicationType':
         ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
                prompts.post_prompt + '\n' + prompts.pubtypedef)
     elif vector == 'DataType':
@@ -139,9 +124,38 @@ def answer(vector, title, abstract, temperature, parentvector=None):
             subcontribdef = prompts.supsubcontribdef
         ask = (prompts.pre_prompt + subask + '. ' +
                prompts.post_prompt + '\n' + subcontribdef)
+    return ask
 
-    return gpt_3p5.get_category_reason(prompts.knbase, title, abstract,
-                                       ask, temperature, debug)
+@app.route('/')
+def index():
+    return redirect(url_for('classify'))
+
+@app.route('/answer/<vector>/<model>/<title>/<abstract>/<temperature>/<parentvector>', methods=('GET', 'POST'))
+def answer(vector, model, title, abstract, temperature, parentvector=None):
+    # POST request
+    if request.method == 'POST':
+        print(request.get_json())  # parse as JSON
+        return 'OK', 200
+
+    # GET request
+    prompts.init()
+    debug = False
+    temperature = float(temperature)
+    ask = get_ask(vector, parentvector)
+    if model == '"Model A"':
+        if vector == 'Summary':
+            return gpt_3p5.get_abstract_summary(title, abstract, ask, temperature,
+                                                debug)
+        else:
+            return gpt_3p5.get_category_reason(prompts.knbase, title, abstract,
+                                               ask, temperature, debug)
+    elif model == '"Model B"':
+        if vector == 'Summary':
+            return davinci.get_abstract_summary(title, abstract, ask, temperature,
+                                                debug)
+        else:
+            return davinci.get_category_reason(prompts.knbase, title, abstract,
+                                               ask, temperature, debug)
 
 @app.route('/classify/', methods=('GET', 'POST'))
 def classify():
@@ -158,12 +172,12 @@ def classify():
             temperature = float(request.form.get('temperature'))
             title = title.strip()
             # TODO Use encodeURIComponent() in javascript to escape '/' and '\'
-            title = title.translate({ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+            title = title.translate({ord(c): " " for c in "!@#$%^&*()[]{};:/<>?\|`~-=_+"})
             abstract = abstract.strip()
             # TODO Use encodeURIComponent() in javascript to escape '/' and '\'
-            abstract = abstract.translate({ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+            abstract = abstract.translate({ord(c): " " for c in "!@#$%^&*()[]{};:/<>?\|`~-=_+"})
 
-            return render_template('result_classify.html', title=title,
+            return render_template('result_classify.html', model=model, title=title,
                                    abstract=abstract, temperature=temperature)
 
     return render_template('input_classify.html')

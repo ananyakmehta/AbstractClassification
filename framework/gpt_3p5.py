@@ -3,7 +3,6 @@ import openai
 import framework.prompts as prompts
 import json
 from tenacity import retry, wait_random_exponential, stop_after_attempt
-import copy
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -16,7 +15,7 @@ functions = [
             "properties": {
                 "category": {
                     "type": "string",
-                    "description": "Specified category",
+                    "description": "Selected category",
                 },
                 "reason": {
                     "type": "string",
@@ -50,9 +49,8 @@ def get_category_reason(knbase, title, abstract, ask, temperature, debug):
     return json.loads(response.choices[0].message.function_call.arguments)
 
 @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
-def get_abstract_summary(title, abstract, temperature):
+def get_abstract_summary(title, abstract, ask, temperature, debug):
     prompt = []
-    ask = "Summarize the abstract for a high school student.\n"
     prompt.append({"role":"user",
                    "content":'Title: '+title+'\n'+'Abstract: '+abstract+'\n'+ask})
     response = openai.ChatCompletion.create(
@@ -63,8 +61,9 @@ def get_abstract_summary(title, abstract, temperature):
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0)
-    #print(gpt_prompt)
-    #print(response)
+    if debug == True:
+        print(prompt)
+        print(response)
     data = 'Summary: ' + response.choices[0]["message"]["content"]
     return data
 

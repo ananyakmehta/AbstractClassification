@@ -1,114 +1,45 @@
 import os
 import openai
 import framework.prompts as prompts
+import json
+from tenacity import retry, wait_random_exponential, stop_after_attempt
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-def davinci_request(prompt, temperature):
+@retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+def get_category_reason(knbase, title, abstract, ask, temperature, debug):
+    out_format="Return the answer in the json format: {\"category\": \"Selected category\", \"reason\": \"Reason for selecting the category\"}"
+    prompt = (knbase + 'Title: ' + title + 'Abstract: ' + abstract +
+              'Options: ' + ask + out_format)
     response = openai.Completion.create(
             model="text-davinci-003",
             prompt=prompt,
             temperature=temperature,
-            max_tokens=48,
+            max_tokens=1024,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0)
-    return response.choices[0].text.strip()
+    if debug == True:
+        print(prompt)
+        print(response)
+    return json.loads(response.choices[0].text.strip())
 
-def model_davinci(title, abstract, temperature):
-    ans = {'Title': '',
-           'Abstract': '',
-           'PublicationType': '',
-           'DataType': '',
-           'Population': '',
-           'Subpopulation': '',
-           'Purpose': '',
-           'Recording Type': '',
-           'Recording Tech': '',
-           'Brain Signal': '',
-           'Paradigm': '',
-           'Application': '',
-           'Contribution': '',
-           'Sub-Contribution': ''}
-    prompts.init()
-    ans['Title'] = title
-    ans['Abstract'] = abstract
-
-    ans['PublicationType'] = davinci_request(abstract+prompts.q[1], temperature)
-    print(ans['PublicationType'])
-
-    ans['DataType'] = davinci_request(abstract+prompts.q[2], temperature)
-    print(ans['DataType'])
-
-    ans['Population'] = davinci_request(abstract+prompts.q[3], temperature)
-    print(ans['Population'])
-
-    # Population: Animal, Clinical, Healthy, Other
-    if ans['Population'] == "Animal":
-        question = prompts.q_subpop[0]
-    elif ans['Population'] == "Clinical":
-        question = prompts.q_subpop[1]
-    elif ans['Population'] == "Healthy":
-        question = prompts.q_subpop[2]
-    elif ans['Population'] == "Other":
-        question = prompts.q_subpop[3]
-    ans['Subpopulation'] = davinci_request(abstract+question, temperature)
-    print(ans['Subpopulation'])
-
-    ans['Purpose'] = davinci_request(abstract+prompts.q[5], temperature)
-    print(ans['Purpose'])
-
-    ans['Recording Type'] = davinci_request(abstract+prompts.q[6], temperature)
-    print(ans['Recording Type'])
-
-    ans['Recording Tech'] = davinci_request(abstract+prompts.q[7], temperature)
-    print(ans['Recording Tech'])
-
-    ans['Brain Signal'] = davinci_request(abstract+prompts.q[8], temperature)
-    print(ans['Brain Signal'])
-
-    # Signals: Attention, Auditory, Error, Frontal, Hybrid, Motor, Other,
-    # SCP, Visual
-    if ans['Brain Signal'] == "Attention":
-        question = prompts.q_sigpdim[0]
-    elif ans['Brain Signal'] == "Auditory":
-        question = prompts.q_sigpdim[1]
-    elif ans['Brain Signal'] == "Error":
-        question = prompts.q_sigpdim[2]
-    elif ans['Brain Signal'] == "Frontal":
-        question = prompts.q_sigpdim[3]
-    elif ans['Brain Signal'] == "Hybrid":
-        question = prompts.q_sigpdim[4]
-    elif ans['Brain Signal'] == "Motor":
-        question = prompts.q_sigpdim[5]
-    elif ans['Brain Signal'] == "Other":
-        question = prompts.q_sigpdim[6]
-    elif ans['Brain Signal'] == "SCP":
-        question = prompts.q_sigpdim[7]
-    elif ans['Brain Signal'] == "Visual":
-        question = prompts.q_sigpdim[8]
-    ans['Paradigm'] = davinci_request(abstract+question, temperature)
-    print(ans['Paradigm'])
-
-    ans['Application'] = davinci_request(abstract+prompts.q[10], temperature)
-    print(ans['Application'])
-
-    ans['Contribution'] = davinci_request(abstract+prompts.q[11], temperature)
-    print(ans['Contribution'])
-
-    # Contributions: Applied Research, Basic Research,
-    # Experimental Development, Support
-    if ans['Contribution'] == "Applied Research":
-        question = prompts.q_subctrb[0]
-    elif ans['Contribution'] == "Basic Research":
-        question = prompts.q_subctrb[1]
-    elif ans['Contribution'] == "Experimental Development":
-        question = prompts.q_subctrb[2]
-    elif ans['Contribution'] == "Support":
-        question = prompts.q_subctrb[3]
-    ans['Sub-Contribution'] = davinci_request(abstract+question, temperature)
-    print(ans['Sub-Contribution'])
-    return ans
+@retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+def get_abstract_summary(title, abstract, ask, temperature, debug):
+    prompt = ('Title: ' + title + 'Abstract: ' + abstract + ask)
+    response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=temperature,
+            max_tokens=1024,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0)
+    if debug == True:
+        print(prompt)
+        print(response)
+    data = 'Summary: ' + response.choices[0].text.strip()
+    return data
 
 if __name__ == "__main__":
     # Invocation with a sample title and abstract
