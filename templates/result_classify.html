@@ -1,11 +1,214 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for message in messages %}
-        <div class='message'>
-            <h3>{{ message['title'] }}</h3>
-            <p>{{ message['content'] }}</p>
-            <p>{{ message['extra'] }}</p>
-        </div>
-    {% endfor %}
+    <div class='message'>
+        <h3> Title: {{ title }} </h3>
+        <p> Abstract: {{ abstract }} </p>
+    </div>
+
+    <div class='message'>
+        <h3> Summary </h3>
+        <p id='summary'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> PublicationType </h3>
+        <p id='ptcategory'>Analyzing ...</p>
+        <p id='ptreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> DataType </h3>
+        <p id='dtcategory'>Analyzing ...</p>
+        <p id='dtreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> Population </h3>
+        <p id='popcategory'>Analyzing ...</p>
+        <p id='popreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> SubPopulation </h3>
+        <p id='subpopcategory'>Analyzing ...</p>
+        <p id='subpopreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> Purpose </h3>
+        <p id='purpcategory'>Analyzing ...</p>
+        <p id='purpreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> RecordingType </h3>
+        <p id='rectypecategory'>Analyzing ...</p>
+        <p id='rectypereason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> RecordingTech </h3>
+        <p id='rectechcategory'>Analyzing ...</p>
+        <p id='rectechreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> BrainSignal </h3>
+        <p id='bscategory'>Analyzing ...</p>
+        <p id='bsreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> Paradigm </h3>
+        <p id='pdigmcategory'>Analyzing ...</p>
+        <p id='pdigmreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> Application </h3>
+        <p id='appcategory'>Analyzing ...</p>
+        <p id='appreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> Contribution </h3>
+        <p id='ctrbcategory'>Analyzing ...</p>
+        <p id='ctrbreason'>Analyzing ...</p>
+    </div>
+
+    <div class='message'>
+        <h3> SubContribution </h3>
+        <p id='subctrbcategory'>Analyzing ...</p>
+        <p id='subctrbreason'>Analyzing ...</p>
+    </div>
+
+    <script>
+    fetch(`/answer/Summary/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.text();
+        }).then(function (text) {
+            document.getElementById('summary').innerHTML = text;
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/PublicationType/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('ptcategory').innerHTML = jsontext['category'];
+            document.getElementById('ptreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/DataType/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('dtcategory').innerHTML = jsontext['category'];
+            document.getElementById('dtreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/Population/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('popcategory').innerHTML = jsontext['category'];
+            document.getElementById('popreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(jsontext); // Print the greeting as text
+            population = jsontext['category']
+            return fetch(`/answer/SubPopulation/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${population}`)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('subpopcategory').innerHTML = jsontext['category'];
+            document.getElementById('subpopreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/Purpose/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('purpcategory').innerHTML = jsontext['category'];
+            document.getElementById('purpreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/RecordingType/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('rectypecategory').innerHTML = jsontext['category'];
+            document.getElementById('rectypereason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/RecordingTech/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('rectechcategory').innerHTML = jsontext['category'];
+            document.getElementById('rectechreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/BrainSignal/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('bscategory').innerHTML = jsontext['category'];
+            document.getElementById('bsreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+            signal = jsontext['category']
+            return fetch(`/answer/Paradigm/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${signal}`)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('pdigmcategory').innerHTML = jsontext['category'];
+            document.getElementById('pdigmreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/Application/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('appcategory').innerHTML = jsontext['category'];
+            document.getElementById('appreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    fetch(`/answer/Contribution/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('ctrbcategory').innerHTML = jsontext['category'];
+            document.getElementById('ctrbreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+            contribution = jsontext['category']
+            return fetch(`/answer/SubContribution/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${contribution}`)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (jsontext) {
+            document.getElementById('subctrbcategory').innerHTML = jsontext['category'];
+            document.getElementById('subctrbreason').innerHTML = jsontext['reason'];
+            //console.log('GET response text:');
+            //console.log(text); // Print the greeting as text
+        });
+
+    </script>
 {% endblock %}

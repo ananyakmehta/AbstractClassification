@@ -5,6 +5,7 @@ import base64
 from io import BytesIO
 from matplotlib.figure import Figure
 import numpy as np
+import framework.prompts as prompts
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'df0331cefc6c2b9a5d0208a726a5d1c0fd37324feba25506'
@@ -44,59 +45,103 @@ def plot_model_accuracy():
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return data
 
-def map_model_output(model_dict):
-    display = [
-            {'title': 'Title',
-             'content': 'Summary',
-             'extra': 'Abstract'},
-            {'title': 'PublicationType',
-             'content': '',
-             'extra': ''},
-            {'title': 'DataType',
-             'content': '',
-             'extra': ''},
-            {'title': 'Population',
-             'content': '',
-             'extra': ''},
-            {'title': 'Subpopulation',
-             'content': '',
-             'extra': ''},
-            {'title': 'Purpose',
-             'content': '',
-             'extra': ''},
-            {'title': 'RecordingType',
-             'content': '',
-             'extra': ''},
-            {'title': 'RecordingTech',
-             'content': '',
-             'extra': ''},
-            {'title': 'BrainSignal',
-             'content': '',
-             'extra': ''},
-            {'title': 'Paradigm',
-             'content': '',
-             'extra': ''},
-            {'title': 'Application',
-             'content': '',
-             'extra': ''},
-            {'title': 'Contribution',
-             'content': '',
-             'extra': ''},
-            {'title': 'SubContribution',
-             'content': '',
-             'extra': ''},
-            ]
-    display[0]['title'] = model_dict['Title']
-    display[0]['content'] = model_dict['Summary']
-    display[0]['extra'] = model_dict['Abstract']
-    for i in range(1,13):
-        display[i]['content'] = model_dict[display[i]['title']]
-        display[i]['extra'] = model_dict[display[i]['title']+'Reason']
-    return display
-
 @app.route('/')
 def index():
     return redirect(url_for('classify'))
+
+@app.route('/answer/<vector>/<title>/<abstract>/<temperature>/<parentvector>', methods=('GET', 'POST'))
+def answer(vector, title, abstract, temperature, parentvector=None):
+    # POST request
+    if request.method == 'POST':
+        print(request.get_json())  # parse as JSON
+        return 'OK', 200
+
+    # GET request
+    prompts.init()
+    temperature = float(temperature)
+    if vector == 'Summary':
+        return gpt_3p5.get_abstract_summary(title, abstract, temperature)
+
+    debug = False
+    if vector == 'PublicationType':
+        ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
+               prompts.post_prompt + '\n' + prompts.pubtypedef)
+    elif vector == 'DataType':
+        ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
+               prompts.post_prompt + '\n' + prompts.datatypedef)
+    elif vector == 'Population':
+        ask = (prompts.pre_prompt + prompts.cat_top[3] + '. ' +
+               prompts.post_prompt + '\n' + prompts.popdef)
+    elif vector == 'SubPopulation':
+        subask = ""
+        if parentvector == "Animal":
+            subask = prompts.cat_subpop[0]
+        elif parentvector == "Clinical":
+            subask = prompts.cat_subpop[1]
+        elif parentvector == "Healthy":
+            subask = prompts.cat_subpop[2]
+        elif parentvector == "Other":
+            subask = prompts.cat_subpop[3]
+        ask = (prompts.pre_prompt + subask + '. ' + prompts.post_prompt)
+    elif vector == 'Purpose':
+        ask = (prompts.pre_prompt + prompts.cat_top[5] + '. ' +
+               prompts.post_prompt + '\n' + prompts.purposedef)
+    elif vector == 'RecordingType':
+        ask = (prompts.pre_prompt + prompts.cat_top[6] + '. ' +
+               prompts.post_prompt + '\n' + prompts.rectypedef)
+    elif vector == 'RecordingTech':
+        ask = (prompts.pre_prompt + prompts.cat_top[7] + '. ' +
+               prompts.post_prompt + '\n' + prompts.rectypedef)
+    elif vector == 'BrainSignal':
+        ask = (prompts.pre_prompt + prompts.cat_top[8] + '. ' +
+               prompts.post_prompt + '\n' + prompts.signaldef)
+    elif vector == 'Paradigm':
+        subask = ""
+        if parentvector == "Attention":
+            subask = prompts.cat_sigpdim[0]
+        elif parentvector == "Auditory":
+            subask = prompts.cat_sigpdim[1]
+        elif parentvector == "Error":
+            subask = prompts.cat_sigpdim[2]
+        elif parentvector == "Frontal":
+            subask = prompts.cat_sigpdim[3]
+        elif parentvector == "Hybrid":
+            subask = prompts.cat_sigpdim[4]
+        elif parentvector == "Motor":
+            subask = prompts.cat_sigpdim[5]
+        elif parentvector == "Other":
+            subask = prompts.cat_sigpdim[6]
+        elif parentvector == "SCP":
+            subask = prompts.cat_sigpdim[7]
+        elif parentvector == "Visual":
+            subask = prompts.cat_sigpdim[8]
+        ask = (prompts.pre_prompt + subask + '. ' +
+               prompts.post_prompt + '\n' + prompts.signaldef)
+    elif vector == 'Application':
+        ask = (prompts.pre_prompt + prompts.cat_top[10] + '. ' +
+               prompts.post_prompt + '\n' + prompts.appdef)
+    elif vector == 'Contribution':
+        ask = (prompts.pre_prompt + prompts.cat_top[11] + '. ' +
+               prompts.post_prompt + '\n' + prompts.contribdef)
+    elif vector == 'SubContribution':
+        subask = ""
+        if parentvector == "Applied Research":
+            subask = prompts.cat_subctrb[0]
+            subcontribdef = prompts.arsubcontribdef
+        elif parentvector == "Basic Research":
+            subask = prompts.cat_subctrb[1]
+            subcontribdef = prompts.brsubcontribdef
+        elif parentvector == "Experimental Development":
+            subask = prompts.cat_subctrb[2]
+            subcontribdef = prompts.edsubcontribdef
+        elif parentvector == "Support":
+            subask = prompts.cat_subctrb[3]
+            subcontribdef = prompts.supsubcontribdef
+        ask = (prompts.pre_prompt + subask + '. ' +
+               prompts.post_prompt + '\n' + subcontribdef)
+
+    return gpt_3p5.get_category_reason(prompts.knbase, title, abstract,
+                                       ask, temperature, debug)
 
 @app.route('/classify/', methods=('GET', 'POST'))
 def classify():
@@ -109,17 +154,17 @@ def classify():
         elif not abstract:
             flash('Abstract is required!')
         else:
-            title = "Title: " + title + "\n"
-            abstract = "Abstract: " + abstract + "\n"
             model = request.form.get('model')
             temperature = float(request.form.get('temperature'))
-            if model == "Model A":
-                model_dict = gpt_3p5.classify_abstract(title, abstract, temperature)
-                output = map_model_output(model_dict)
-            elif model == "Model B":
-                model_dict = davinci.model_davinci(title, abstract, temperature)
-                output = map_model_output(model_dict)
-            return render_template('result_classify.html', messages=output)
+            title = title.strip()
+            # TODO Use encodeURIComponent() in javascript to escape '/' and '\'
+            title = title.translate({ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+            abstract = abstract.strip()
+            # TODO Use encodeURIComponent() in javascript to escape '/' and '\'
+            abstract = abstract.translate({ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+
+            return render_template('result_classify.html', title=title,
+                                   abstract=abstract, temperature=temperature)
 
     return render_template('input_classify.html')
 
