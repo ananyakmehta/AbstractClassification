@@ -12,202 +12,512 @@
     </div>
 
     <div class='message'>
-        <h3> PublicationType </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> PublicationType </h3>
+            <select id="dropdown-publicationtype">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='ptcategory'>Analyzing ...</p>
         <p id='ptreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> DataType </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> DataType </h3>
+            <select id="dropdown-datatype">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='dtcategory'>Analyzing ...</p>
         <p id='dtreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> Population </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> Population </h3>
+            <select id="dropdown-population">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='popcategory'>Analyzing ...</p>
         <p id='popreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> SubPopulation </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> SubPopulation </h3>
+            <select id="dropdown-subpopulation">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='subpopcategory'>Analyzing ...</p>
         <p id='subpopreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> Purpose </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> Purpose </h3>
+            <select id="dropdown-purpose">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='purpcategory'>Analyzing ...</p>
         <p id='purpreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> RecordingType </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> RecordingType </h3>
+            <select id="dropdown-recordingtype">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='rectypecategory'>Analyzing ...</p>
         <p id='rectypereason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> RecordingTech </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> RecordingTech </h3>
+            <select id="dropdown-recordingtech">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='rectechcategory'>Analyzing ...</p>
         <p id='rectechreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> BrainSignal </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> BrainSignal </h3>
+            <select id="dropdown-brainsignal">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='bscategory'>Analyzing ...</p>
         <p id='bsreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> Paradigm </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> Paradigm </h3>
+            <select id="dropdown-paradigm">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='pdigmcategory'>Analyzing ...</p>
         <p id='pdigmreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> Application </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> Application </h3>
+            <select id="dropdown-application">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='appcategory'>Analyzing ...</p>
         <p id='appreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> Contribution </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> Contribution </h3>
+            <select id="dropdown-contribution">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='ctrbcategory'>Analyzing ...</p>
         <p id='ctrbreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
-        <h3> SubContribution </h3>
+        <div class="vector-container">
+            <h3 class="vector-title"> SubContribution </h3>
+            <select id="dropdown-subcontribution">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+        </div>
         <p id='subctrbcategory'>Analyzing ...</p>
         <p id='subctrbreason'>Analyzing ...</p>
     </div>
 
     <script>
-	fetch(`/answer/Summary/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.text();
-        }).then(function (text) {
-            document.getElementById('summary').innerHTML = text;
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function fetch_data(url, category, reason) {
+            fetch(url)
+            .then(function (response) {
+                return response.json();
+            }).then(function (jsontext) {
+                document.getElementById(category).innerHTML = jsontext['category'];
+                document.getElementById(reason).innerHTML = jsontext['reason'];
+                //console.log('GET response text:');
+                //console.log(text);
+            });
+        }
 
-    fetch(`/answer/PublicationType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('ptcategory').innerHTML = jsontext['category'];
-            document.getElementById('ptreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function create_dropdown(id, options, on_change) {
+            const list = document.getElementById(id);
+            list.innerHTML = '';
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option;
+                list.appendChild(optionElement);
+            });
 
-    fetch(`/answer/DataType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('dtcategory').innerHTML = jsontext['category'];
-            document.getElementById('dtreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+            // Add change event listener
+            list.addEventListener('change', (event) => {
+                const selectedValue = event.target.value;
+                on_change(selectedValue);
+            });
+        }
 
-    fetch(`/answer/Population/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('popcategory').innerHTML = jsontext['category'];
-            document.getElementById('popreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(jsontext);
-            population = jsontext['category']
-            return fetch(`/answer/SubPopulation/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${population}`)
-        }).then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('subpopcategory').innerHTML = jsontext['category'];
-            document.getElementById('subpopreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_dropdown_subpopulation(population) {
+            options = ['Manual Override'];
+            if (population == 'Animal') {
+                options = ['Manual Override', 'Cat', 'Fly', 'Frog', 'Mouse', 'Primate', 'Rabbit', 'Rat', 'Sheep'];
+            } else if (population == 'Clinical') {
+                options = ['Manual Override', 'ALS', 'Brainstem Stroke', 'Cancer', 'Cerebral Palsy', 'Charcot-Marie-Tooth', 'Dystonia', 'Eating Disorders', 'Epilepsy', 'Locked-in (unspecified)', 'MDD', 'Minimally Conscious State', 'Multiple', 'Muscular Dystrophy', 'Paraplegic', 'Persistant Vegetative State', 'Primary Lateral Sclerosis', 'Schizophrenia', 'Severe Motor Deficit', 'Spinal Cord Injury', 'Stroke', 'TBI', 'Tetraplegic', 'Tremor', 'ADHD'];
+            } else if (population == 'Healthy') {
+                options = ['Manual Override', 'Adults', 'Children', 'College Age', 'Infants', 'Seniors'];
+            } else if (population == 'Other') {
+                options = ['Manual Override', 'Cell Culture'];
+            }
+            const list = document.getElementById('dropdown-subpopulation');
+            list.innerHTML = '';
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option;
+                list.appendChild(optionElement);
+            });
+        }
 
-    fetch(`/answer/Purpose/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('purpcategory').innerHTML = jsontext['category'];
-            document.getElementById('purpreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_dropdown_paradigm(brainsignal) {
+            options = ['Manual Override'];
+            if (brainsignal == 'Attention') {
+                options = ['Manual Override', 'Alpha'];
+            } else if (brainsignal == 'Auditory') {
+                options = ['Manual Override', 'AEP', 'ASSR', 'P300'];
+            } else if (brainsignal == 'Error') {
+                options = ['Manual Override', 'ERN', 'FRN'];
+            } else if (brainsignal == 'Frontal') {
+                options = ['Manual Override', 'Cognitive Tasks'];
+            } else if (brainsignal == 'Hybrid') {
+                options = ['Manual Override', 'Alpha-SSVEP', 'Imagery Tasks-P300', 'Imagery Tasks-SSVEP', 'P300-SSVEP', 'P300-VEP'];
+            } else if (brainsignal == 'Motor') {
+                options = ['Manual Override', 'Imagery Tasks', 'Movement'];
+            } else if (brainsignal == 'Other') {
+                options = ['Manual Override', 'NA_TBD'];
+            } else if (brainsignal == 'SCP') {
+                options = ['Manual Override', 'Neurofeedback'];
+            } else if (brainsignal == 'Visual') {
+                options = ['Manual Override', 'mVEP', 'N2pc', 'P300', 'RSVP', 'SSVEP', 'VEP'];
+            } else if (brainsignal == 'NA_TBD') {
+                options = ['Manual Override', 'NA_TBD'];
+            }
+            const list = document.getElementById('dropdown-paradigm');
+            list.innerHTML = '';
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option;
+                list.appendChild(optionElement);
+            });
+        }
 
-    fetch(`/answer/RecordingType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('rectypecategory').innerHTML = jsontext['category'];
-            document.getElementById('rectypereason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_dropdown_subcontribution(contribution) {
+            options = ['Manual Override'];
+            if (contribution == 'Applied Research') {
+                options = ['Manual Override', 'Clinical (assessment)', 'Clinical (therapeutic)', 'Collaborative', 'Healthy Population', 'Home Use', 'Independent Use', 'Other', 'Purpose'];
+            } else if (contribution == 'Basic Research') {
+                options = ['Manual Override', 'Demographics', 'Ethics', 'Neural Signals', 'Other', 'Signal Measurement or Acquisition', 'Signal Modeling', 'User'];
+            } else if (contribution == 'Experimental Development') {
+                options = ['Manual Override', 'DSP', 'Feedback or Interface', 'Other', 'Signal Measurement or Acquisition', 'System', 'User'];
+            } else if (contribution == 'Support') {
+                options = ['Manual Override', 'Education', 'Other', 'Public Dataset', 'Tools or Software'];
+            }
+            const list = document.getElementById('dropdown-subcontribution');
+            list.innerHTML = '';
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option;
+                list.appendChild(optionElement);
+            });
+        }
 
-    fetch(`/answer/RecordingTech/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('rectechcategory').innerHTML = jsontext['category'];
-            document.getElementById('rectechreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_summary() {
+            fetch(`/answer/Summary/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/0`)
+            .then(function (response) {
+                return response.text();
+            }).then(function (text) {
+                document.getElementById('summary').innerHTML = text;
+                //console.log('GET response text:');
+                //console.log(text);
+            });
+        }
 
-    fetch(`/answer/BrainSignal/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('bscategory').innerHTML = jsontext['category'];
-            document.getElementById('bsreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-            signal = jsontext['category']
-            return fetch(`/answer/Paradigm/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${signal}`)
-        }).then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('pdigmcategory').innerHTML = jsontext['category'];
-            document.getElementById('pdigmreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_publicationtype(selected) {
+            fetch_data(`/answer/PublicationType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'ptcategory', 'ptreason');
+        }
 
-    fetch(`/answer/Application/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('appcategory').innerHTML = jsontext['category'];
-            document.getElementById('appreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_datatype(selected) {
+            fetch_data(`/answer/DataType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'dtcategory', 'dtreason');
+        }
 
-    fetch(`/answer/Contribution/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('ctrbcategory').innerHTML = jsontext['category'];
-            document.getElementById('ctrbreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-            contribution = jsontext['category']
-            return fetch(`/answer/SubContribution/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${contribution}`)
-        }).then(function (response) {
-            return response.json();
-        }).then(function (jsontext) {
-            document.getElementById('subctrbcategory').innerHTML = jsontext['category'];
-            document.getElementById('subctrbreason').innerHTML = jsontext['reason'];
-            //console.log('GET response text:');
-            //console.log(text);
-        });
+        function update_subpopulation(population, selected) {
+            fetch_data(`/answer/SubPopulation/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${population}/${selected}`, 'subpopcategory', 'subpopreason');
+        }
+
+        function update_population(selected) {
+            fetch(`/answer/Population/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`)
+            .then(function (response) {
+                return response.json();
+            }).then(function (jsontext) {
+                document.getElementById('popcategory').innerHTML = jsontext['category'];
+                document.getElementById('popreason').innerHTML = jsontext['reason'];
+                //console.log('GET response text:');
+                //console.log(jsontext);
+                population = jsontext['category'];
+                update_subpopulation(population, 'Manual Override');
+                update_dropdown_subpopulation(population);
+            });
+        }
+
+        function update_purpose(selected) {
+            fetch_data(`/answer/Purpose/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'purpcategory', 'purpreason');
+        }
+
+        function update_rectype(selected) {
+            fetch_data(`/answer/RecordingType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'rectypecategory', 'rectypereason');
+        }
+
+        function update_rectech(selected) {
+            fetch_data(`/answer/RecordingTech/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'rectechcategory', 'rectechreason');
+        }
+
+        function update_paradigm(brainsignal, selected) {
+            fetch_data(`/answer/Paradigm/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${brainsignal}/${selected}`, 'pdigmcategory', 'pdigmreason');
+        }
+
+        function update_brainsignal(selected) {
+            fetch(`/answer/BrainSignal/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`)
+            .then(function (response) {
+                return response.json();
+            }).then(function (jsontext) {
+                document.getElementById('bscategory').innerHTML = jsontext['category'];
+                document.getElementById('bsreason').innerHTML = jsontext['reason'];
+                //console.log('GET response text:');
+                //console.log(jsontext);
+                brainsignal = jsontext['category'];
+                update_paradigm(brainsignal, 'Manual Override');
+                update_dropdown_paradigm(brainsignal);
+            });
+
+        }
+
+        function update_application(selected) {
+            fetch_data(`/answer/Application/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'appcategory', 'appreason');
+        }
+
+        function update_subcontribution(contribution, selected) {
+            fetch_data(`/answer/SubContribution/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${contribution}/${selected}`, 'subctrbcategory', 'subctrbreason');
+        }
+
+        function update_contribution(selected) {
+            fetch(`/answer/Contribution/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`)
+            .then(function (response) {
+                return response.json();
+            }).then(function (jsontext) {
+                document.getElementById('ctrbcategory').innerHTML = jsontext['category'];
+                document.getElementById('ctrbreason').innerHTML = jsontext['reason'];
+                //console.log('GET response text:');
+                //console.log(jsontext);
+                contribution = jsontext['category'];
+                update_subcontribution(contribution, 'Manual Override');
+                update_dropdown_subcontribution(contribution);
+            });
+
+        }
+
+        const on_change_publicationtype = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_publicationtype(selected);
+        };
+
+        const on_change_datatype = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_datatype(selected);
+        };
+
+        const on_change_population = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_population(selected);
+        };
+
+        const on_change_subpopulation = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            // Note that parentvector is kind of required since we plan to present
+            // options to LLM before forcing it to select one of them.
+            population = document.getElementById('popcategory').textContent;
+            update_subpopulation(population, selected);
+        };
+
+        const on_change_purpose = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_purpose(selected);
+        };
+
+        const on_change_recordingtype = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_rectype(selected);
+        };
+
+        const on_change_recordingtech = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_rectech(selected);
+        };
+
+        const on_change_brainsignal = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_brainsignal(selected);
+        };
+
+        const on_change_paradigm = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            // Note that parentvector is kind of required since we plan to present
+            // options to LLM before forcing it to select one of them.
+            brainsignal = document.getElementById('bscategory').textContent;
+            update_paradigm(brainsignal, selected);
+        };
+
+        const on_change_application = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_application(selected);
+        };
+
+        const on_change_contribution = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            update_contribution(selected);
+        };
+
+        const on_change_subcontribution = (selected) => {
+            console.log(`Selected option: ${selected}`);
+            // Call your custom function here to handle the selection change
+            if (selected == 'Manual Override') {
+                return;
+            }
+            // Note that parentvector is kind of required since we plan to present
+            // options to LLM before forcing it to select one of them.
+            contribution = document.getElementById('ctrbcategory').textContent;
+            update_subcontribution(contribution, selected);
+        };
+
+        function create_dropdowns() {
+            // TODO take care of NA/TBD
+            // PublicationType
+            options = ['Manual Override', 'Original Research', 'Review', 'Other', 'NA_TBD'];
+            create_dropdown('dropdown-publicationtype', options, on_change_publicationtype);
+
+            // DataType
+            options = ['Manual Override', 'Original Data', 'Dataset', 'Other', 'NA_TBD'];
+            create_dropdown('dropdown-datatype', options, on_change_datatype);
+
+            // Population
+            options = ['Manual Override', 'Animal', 'Clinical', 'Healthy', 'Other', 'NA_TBD'];
+            create_dropdown('dropdown-population', options, on_change_population);
+
+            // SubPopulation
+            options = ['Manual Override'];
+            create_dropdown('dropdown-subpopulation', options, on_change_subpopulation);
+
+            // Purpose
+            options = ['Manual Override', 'Replace', 'Enhance', 'Improve', 'Supplement', 'Contribute', 'Design', 'NA_TBD'];
+            create_dropdown('dropdown-purpose', options, on_change_purpose);
+
+            // RecordingType
+            options = ['Manual Override', 'Electrical', 'Magnetic', 'Metabolic', 'NA_TBD'];
+            create_dropdown('dropdown-recordingtype', options, on_change_recordingtype);
+
+            // RecordingTech
+            options = ['Manual Override', 'EEG', 'ECoG', 'Intracortical', 'MEG', 'fMRI', 'Ultrasound', 'fNIRS'];
+            create_dropdown('dropdown-recordingtech', options, on_change_recordingtech);
+
+            // BrainSignal
+            options = ['Manual Override', 'Auditory', 'Error', 'Frontal', 'Hybrid', 'Motor', 'Other', 'SCP', 'Visual', 'NA_TBD'];
+            create_dropdown('dropdown-brainsignal', options, on_change_brainsignal);
+
+            // Paradigm
+            options = ['Manual Override'];
+            create_dropdown('dropdown-paradigm', options, on_change_paradigm);
+
+            // Application
+            options = ['Manual Override', 'Brain Switch', 'Clinical or Brain-State Monitoring', 'Communication', 'Cursor or Movement Control', 'Domotics or Environmental Control', 'Gaming or Computer Control', 'Image Triage', 'Neurofeedback', 'Neurprosthetic or Robotics', 'Offline or Online Target Selection', 'Other', 'NA_TBD'];
+            create_dropdown('dropdown-application', options, on_change_application);
+
+            // Contribution
+            options = ['Manual Override', 'Applied Research', 'Basic Research', 'Experimental Development', 'Support'];
+            create_dropdown('dropdown-contribution', options, on_change_contribution);
+
+            // SubContribution
+            options = ['Manual Override'];
+            create_dropdown('dropdown-subcontribution', options, on_change_subcontribution);
+        }
+
+        create_dropdowns();
+
+        update_summary();
+        update_publicationtype('Manual Override');
+        update_datatype('Manual Override');
+        update_population('Manual Override');
+        update_purpose('Manual Override');
+        update_rectype('Manual Override');
+        update_rectech('Manual Override');
+        update_brainsignal('Manual Override');
+        update_application('Manual Override');
+        update_contribution('Manual Override');
+
     </script>
 {% endblock %}

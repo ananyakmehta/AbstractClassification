@@ -2,12 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %} - FlaskApp</title>
+    <title>NCAN - {% block title %} {% endblock %}</title>
     <style>
         .message {
+            display: flex;
+            flex-direction: column;
             padding: 10px;
             margin: 5px;
             background-color: #f3f3f3
+        }
+        .vector-container {
+            display: flex;
+            align-items: center;
+        }
+        .vector-title {
+            margin-right: 20px; /* Spacing between vector title and dropdown */
         }
         nav a {
             color: #d64161;
@@ -15,24 +24,22 @@
             margin-left: 50px;
             text-decoration: none;
         }
-
-	.alert {
+        .alert {
             padding: 20px;
             margin: 5px;
             color: #970020;
             background-color: #ffd5de;
         }
-
     </style>
 </head>
 <body>
     <nav>
-	<a href="{{ url_for('classify') }}">Classify</a>
-	<a href="{{ url_for('evaluate') }}">Evaluate</a>
+        <a href="{{ url_for('classify') }}">Classify</a>
+        <a href="{{ url_for('evaluate') }}">Evaluate</a>
     </nav>
     <hr>
     <div class="content">
-	{% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages() %}
             <div class="alert">{{ message }}</div>
         {% endfor %}
         {% block content %} {% endblock %}

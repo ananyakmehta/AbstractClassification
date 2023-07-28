@@ -6,6 +6,7 @@ from io import BytesIO
 from matplotlib.figure import Figure
 import numpy as np
 import framework.prompts as prompts
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'df0331cefc6c2b9a5d0208a726a5d1c0fd37324feba25506'
@@ -45,18 +46,30 @@ def plot_model_accuracy():
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return data
 
-def get_ask(vector, parentvector):
+def get_ask(vector, parentvector, override):
     if vector == 'Summary':
         ask = "Summarize the abstract for a high school student."
     elif vector == 'PublicationType':
-        ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
-               prompts.post_prompt + '\n' + prompts.pubtypedef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.pubtypedef)
     elif vector == 'DataType':
-        ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
-               prompts.post_prompt + '\n' + prompts.datatypedef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.datatypedef)
     elif vector == 'Population':
-        ask = (prompts.pre_prompt + prompts.cat_top[3] + '. ' +
-               prompts.post_prompt + '\n' + prompts.popdef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[3] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[3] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.popdef)
     elif vector == 'SubPopulation':
         subask = ""
         if parentvector == "Animal":
@@ -67,19 +80,39 @@ def get_ask(vector, parentvector):
             subask = prompts.cat_subpop[2]
         elif parentvector == "Other":
             subask = prompts.cat_subpop[3]
-        ask = (prompts.pre_prompt + subask + '. ' + prompts.post_prompt)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + subask + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + subask + '. ' + prompts.post_prompt)
     elif vector == 'Purpose':
-        ask = (prompts.pre_prompt + prompts.cat_top[5] + '. ' +
-               prompts.post_prompt + '\n' + prompts.purposedef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[5] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[5] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.purposedef)
     elif vector == 'RecordingType':
-        ask = (prompts.pre_prompt + prompts.cat_top[6] + '. ' +
-               prompts.post_prompt + '\n' + prompts.rectypedef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[6] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[6] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.rectypedef)
     elif vector == 'RecordingTech':
-        ask = (prompts.pre_prompt + prompts.cat_top[7] + '. ' +
-               prompts.post_prompt + '\n' + prompts.rectypedef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[7] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[7] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.rectypedef)
     elif vector == 'BrainSignal':
-        ask = (prompts.pre_prompt + prompts.cat_top[8] + '. ' +
-               prompts.post_prompt + '\n' + prompts.signaldef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[8] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[8] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.signaldef)
     elif vector == 'Paradigm':
         subask = ""
         if parentvector == "Attention":
@@ -100,16 +133,29 @@ def get_ask(vector, parentvector):
             subask = prompts.cat_sigpdim[7]
         elif parentvector == "Visual":
             subask = prompts.cat_sigpdim[8]
-        ask = (prompts.pre_prompt + subask + '. ' +
-               prompts.post_prompt + '\n' + prompts.signaldef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + subask + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + subask + '. ' +
+                   prompts.post_prompt + '\n' + prompts.signaldef)
     elif vector == 'Application':
-        ask = (prompts.pre_prompt + prompts.cat_top[10] + '. ' +
-               prompts.post_prompt + '\n' + prompts.appdef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[10] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[10] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.appdef)
     elif vector == 'Contribution':
-        ask = (prompts.pre_prompt + prompts.cat_top[11] + '. ' +
-               prompts.post_prompt + '\n' + prompts.contribdef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + prompts.cat_top[11] + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + prompts.cat_top[11] + '. ' +
+                   prompts.post_prompt + '\n' + prompts.contribdef)
     elif vector == 'SubContribution':
         subask = ""
+        subcontribdef = ""
         if parentvector == "Applied Research":
             subask = prompts.cat_subctrb[0]
             subcontribdef = prompts.arsubcontribdef
@@ -122,16 +168,20 @@ def get_ask(vector, parentvector):
         elif parentvector == "Support":
             subask = prompts.cat_subctrb[3]
             subcontribdef = prompts.supsubcontribdef
-        ask = (prompts.pre_prompt + subask + '. ' +
-               prompts.post_prompt + '\n' + subcontribdef)
+        if override and override != 'Manual Override':
+            ask = (prompts.pre_prompt + subask + '. ' +
+                   f'Return the category as "{override}" and justify the choice.')
+        else:
+            ask = (prompts.pre_prompt + subask + '. ' +
+                   prompts.post_prompt + '\n' + subcontribdef)
     return ask
 
 @app.route('/')
 def index():
     return redirect(url_for('classify'))
 
-@app.route('/answer/<vector>/<model>/<title>/<abstract>/<temperature>/<parentvector>', methods=('GET', 'POST'))
-def answer(vector, model, title, abstract, temperature, parentvector=None):
+@app.route('/answer/<vector>/<model>/<title>/<abstract>/<temperature>/<parentvector>/<override>', methods=('GET', 'POST'))
+def answer(vector, model, title, abstract, temperature, parentvector=None, override=None):
     # POST request
     if request.method == 'POST':
         print(request.get_json())  # parse as JSON
@@ -139,9 +189,17 @@ def answer(vector, model, title, abstract, temperature, parentvector=None):
 
     # GET request
     prompts.init()
-    debug = False
+    debug = True
+    dummy = False
     temperature = float(temperature)
-    ask = get_ask(vector, parentvector)
+    ask = get_ask(vector, parentvector, override)
+    print("Override -> {0}".format(override))
+    if dummy:
+        if vector == 'Summary':
+            return "Sample Summary"
+        else:
+            return json.loads(f'{{"category": "{vector} category", "reason": "{vector} reason"}}')
+
     if model == '"Model A"':
         if vector == 'Summary':
             return gpt_3p5.get_abstract_summary(title, abstract, ask, temperature,

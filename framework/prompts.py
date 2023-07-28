@@ -115,7 +115,7 @@ cat_top = [
         "Replace, Enhance, Improve, Supplement, Contribute, Design, NA/TBD", \
         "Electrical, Magnetic, Metabolic, NA/TBD", \
         "EEG, ECoG, Intracortical, MEG, fMRI, Ultrasound, fNIRS", \
-        "Auditory, Error, Frontal, Hybrid, Motor, Other, SCP, Visual, NA/TBD", \
+        "Attention, Auditory, Error, Frontal, Hybrid, Motor, Other, SCP, Visual, NA/TBD", \
         "Reserved", \
         "Brain Switch, Clinical/Brain-State Monitoring, Communication, \
         Cursor/Movement Control, Domotics/Environmental Control, \
@@ -148,6 +148,7 @@ cat_sigpdim = [ \
         "NA/TBD", \
         "Neurofeedback", \
         "mVEP, N2pc, P300, RSVP, SSVEP, VEP" \
+        "NA/TBD", \
         ]
 
 cat_subctrb = [ \
