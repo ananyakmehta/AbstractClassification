@@ -143,6 +143,8 @@
         <p id='subctrbreason'>Analyzing ...</p>
     </div>
 
+    <button type="submit" onclick="upload_results()">Upload Results</button>
+
     <script>
         function fetch_data(url, category, reason) {
             fetch(url)
@@ -504,6 +506,17 @@
             // SubContribution
             options = ['Manual Override'];
             create_dropdown('dropdown-subcontribution', options, on_change_subcontribution);
+        }
+
+        function upload_results() {
+            fetch(`/upload/`)
+            .then(function (response) {
+                return response.text();
+            }).then(function (text) {
+                //console.log('GET response text:');
+                //console.log(text);
+            });
+            window.location.href = '/classify/';
         }
 
         create_dropdowns();

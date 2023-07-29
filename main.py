@@ -180,6 +180,14 @@ def get_ask(vector, parentvector, override):
 def index():
     return redirect(url_for('classify'))
 
+@app.route('/upload/', methods=('GET', 'POST'))
+def upload():
+    if request.method == 'POST':
+        print("POST")
+    else:
+        print("GET")
+    return 'OK', 200
+
 @app.route('/answer/<vector>/<model>/<title>/<abstract>/<temperature>/<parentvector>/<override>', methods=('GET', 'POST'))
 def answer(vector, model, title, abstract, temperature, parentvector=None, override=None):
     # POST request
@@ -189,8 +197,8 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
 
     # GET request
     prompts.init()
-    debug = True
-    dummy = False
+    debug = False
+    dummy = True
     temperature = float(temperature)
     ask = get_ask(vector, parentvector, override)
     print("Override -> {0}".format(override))
