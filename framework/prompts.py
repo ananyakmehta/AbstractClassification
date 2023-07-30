@@ -114,7 +114,7 @@ cat_top = [
         "Reserved", \
         "Replace, Enhance, Improve, Supplement, Contribute, Design, NA/TBD", \
         "Electrical, Magnetic, Metabolic, NA/TBD", \
-        "EEG, ECoG, Intracortical, MEG, fMRI, Ultrasound, fNIRS", \
+        "Reserved", \
         "Attention, Auditory, Error, Frontal, Hybrid, Motor, Other, SCP, Visual, NA/TBD", \
         "Reserved", \
         "Brain Switch, Clinical/Brain-State Monitoring, Communication, \
@@ -123,6 +123,12 @@ cat_top = [
         Neurprosthetic/Robotics, Offline/Online Target Selection, Other", \
         "Applied Research, Basic Research, Experimental Development, Support", \
         "Reserved"
+        ]
+
+cat_rectech = [ \
+        "Electroencephalography(EEG), Electrocorticography(ECoG), Intracortical", \
+        "MEG", \
+        "Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near infrared spectroscopy (fNIRS)"
         ]
 
 cat_subpop = [ \
@@ -163,6 +169,7 @@ cat_subctrb = [ \
 
 def init():
     global cat_top
+    global cat_rectech
     global cat_subpop
     global cat_sigpdim
     global cat_subctrb

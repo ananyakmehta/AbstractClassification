@@ -194,6 +194,24 @@
             });
         }
 
+        function update_dropdown_recordingtech(rectype) {
+            options = ['Manual Override'];
+            if (rectype == 'Electrical') {
+                options = ['Manual Override', 'Electroencephalography(EEG)', 'Electrocorticography(ECoG)', 'Intracortical'];
+            } else if (rectype == 'Magnetic') {
+                options = ['Manual Override', 'MEG'];
+            } else if (rectype == 'Metabolic') {
+                options = ['Manual Overide', 'Functional magnetic resonance imaging (fMRI)', 'Ultrasound, Functional near infrared spectroscopy (fNIRS)'];
+            }
+            const list = document.getElementById('dropdown-recordingtech');
+            list.innerHTML = '';
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option;
+                list.appendChild(optionElement);
+            });
+        }
+
         function update_dropdown_paradigm(brainsignal) {
             options = ['Manual Override'];
             if (brainsignal == 'Attention') {
@@ -288,12 +306,23 @@
             fetch_data(`/answer/Purpose/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'purpcategory', 'purpreason');
         }
 
-        function update_rectype(selected) {
-            fetch_data(`/answer/RecordingType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'rectypecategory', 'rectypereason');
+        function update_recordingtype(selected) {
+            fetch(`/answer/RecordingType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`)
+            .then(function (response) {
+                return response.json();
+            }).then(function (jsontext) {
+                document.getElementById('rectypecategory').innerHTML = jsontext['category'];
+                document.getElementById('rectypereason').innerHTML = jsontext['reason'];
+                //console.log('GET response text:');
+                //console.log(jsontext);
+                rectype = jsontext['category'];
+                update_recordingtech(rectype, 'Manual Override');
+                update_dropdown_recordingtech(rectype);
+            });
         }
 
-        function update_rectech(selected) {
-            fetch_data(`/answer/RecordingTech/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'rectechcategory', 'rectechreason');
+        function update_recordingtech(rectype, selected) {
+            fetch_data(`/answer/RecordingTech/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${rectype}/${selected}`, 'rectechcategory', 'rectechreason');
         }
 
         function update_paradigm(brainsignal, selected) {
@@ -394,7 +423,7 @@
             if (selected == 'Manual Override') {
                 return;
             }
-            update_rectype(selected);
+            update_recordingtype(selected);
         };
 
         const on_change_recordingtech = (selected) => {
@@ -403,7 +432,10 @@
             if (selected == 'Manual Override') {
                 return;
             }
-            update_rectech(selected);
+            // Note that parentvector is kind of required since we plan to present
+            // options to LLM before forcing it to select one of them.
+            rectype = document.getElementById('rectypecategory').textContent;
+            update_recordingtech(rectype, selected);
         };
 
         const on_change_brainsignal = (selected) => {
@@ -526,8 +558,7 @@
         update_datatype('Manual Override');
         update_population('Manual Override');
         update_purpose('Manual Override');
-        update_rectype('Manual Override');
-        update_rectech('Manual Override');
+        update_recordingtype('Manual Override');
         update_brainsignal('Manual Override');
         update_application('Manual Override');
         update_contribution('Manual Override');

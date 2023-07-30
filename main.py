@@ -100,11 +100,18 @@ def get_ask(vector, parentvector, override):
             ask = (prompts.pre_prompt + prompts.cat_top[6] + '. ' +
                    prompts.post_prompt + '\n' + prompts.rectypedef)
     elif vector == 'RecordingTech':
+        subask = ""
+        if parentvector == "Electrical":
+            subask = prompts.cat_rectech[0]
+        elif parentvector == "Magnetic":
+            subask = prompts.cat_rectech[1]
+        elif parentvector == "Metabolic":
+            subask = prompts.cat_rectech[2]
         if override and override != 'Manual Override':
-            ask = (prompts.pre_prompt + prompts.cat_top[7] + '. ' +
+            ask = (prompts.pre_prompt + subask + '. ' +
                    f'Return the category as "{override}" and justify the choice.')
         else:
-            ask = (prompts.pre_prompt + prompts.cat_top[7] + '. ' +
+            ask = (prompts.pre_prompt + subask + '. ' +
                    prompts.post_prompt + '\n' + prompts.rectypedef)
     elif vector == 'BrainSignal':
         if override and override != 'Manual Override':
@@ -198,10 +205,15 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
     # GET request
     prompts.init()
     debug = False
-    dummy = True
+    dummy = False
     temperature = float(temperature)
     ask = get_ask(vector, parentvector, override)
-    print("Override -> {0}".format(override))
+    if debug == True:
+        print("Vector -> {0}".format(vector))
+        print("Model -> {0}".format(model))
+        print("Temperature -> {0}".format(temperature))
+        print("Parent Vector -> {0}".format(parentvector))
+        print("Override -> {0}".format(override))
     if dummy:
         if vector == 'Summary':
             return "Sample Summary"
