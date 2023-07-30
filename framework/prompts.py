@@ -27,7 +27,7 @@ Contribute: Uses a BCI to investigate phenomena in another field.\n\
 Design: Focuses on the refinement of methods, technologies, or techniques used in multiple BCI applications."
 
 rectypedef = "Definitions:\n\
-Electrical: Electroencephalography(EEG), Electrocorticography(ECoG), Intracortical\n\
+Electrical: Electroencephalography (EEG), Electrocorticography (ECoG), Intracortical\n\
 Magnetic: Magnetoencephalography (MEG)\n\
 Metabolic: Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near-infrared spectroscopy (fNIRS)"
 

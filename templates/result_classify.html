@@ -12,134 +12,134 @@
     </div>
 
     <div class='message'>
+        <h3> PublicationType </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> PublicationType </h3>
+            <p class="vector-title" id='ptcategory'>Analyzing ...</p>
             <select id="dropdown-publicationtype">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='ptcategory'>Analyzing ...</p>
         <p id='ptreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> DataType </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> DataType </h3>
+            <p class="vector-title" id='dtcategory'>Analyzing ...</p>
             <select id="dropdown-datatype">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='dtcategory'>Analyzing ...</p>
         <p id='dtreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> Population </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> Population </h3>
+            <p class="vector-title" id='popcategory'>Analyzing ...</p>
             <select id="dropdown-population">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='popcategory'>Analyzing ...</p>
         <p id='popreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> SubPopulation </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> SubPopulation </h3>
+            <p class="vector-title" id='subpopcategory'>Analyzing ...</p>
             <select id="dropdown-subpopulation">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='subpopcategory'>Analyzing ...</p>
         <p id='subpopreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> Purpose </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> Purpose </h3>
+            <p class="vector-title" id='purpcategory'>Analyzing ...</p>
             <select id="dropdown-purpose">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='purpcategory'>Analyzing ...</p>
         <p id='purpreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> RecordingType </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> RecordingType </h3>
+            <p class="vector-title" id='rectypecategory'>Analyzing ...</p>
             <select id="dropdown-recordingtype">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='rectypecategory'>Analyzing ...</p>
         <p id='rectypereason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> RecordingTech </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> RecordingTech </h3>
+            <p class="vector-title" id='rectechcategory'>Analyzing ...</p>
             <select id="dropdown-recordingtech">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='rectechcategory'>Analyzing ...</p>
         <p id='rectechreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> BrainSignal </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> BrainSignal </h3>
+            <p class="vector-title" id='bscategory'>Analyzing ...</p>
             <select id="dropdown-brainsignal">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='bscategory'>Analyzing ...</p>
         <p id='bsreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> Paradigm </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> Paradigm </h3>
+            <p class="vector-title" id='pdigmcategory'>Analyzing ...</p>
             <select id="dropdown-paradigm">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='pdigmcategory'>Analyzing ...</p>
         <p id='pdigmreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> Application </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> Application </h3>
+            <p class="vector-title" id='appcategory'>Analyzing ...</p>
             <select id="dropdown-application">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='appcategory'>Analyzing ...</p>
         <p id='appreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> Contribution </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> Contribution </h3>
+            <p class="vector-title" id='ctrbcategory'>Analyzing ...</p>
             <select id="dropdown-contribution">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='ctrbcategory'>Analyzing ...</p>
         <p id='ctrbreason'>Analyzing ...</p>
     </div>
 
     <div class='message'>
+        <h3> SubContribution </h3>
         <div class="vector-container">
-            <h3 class="vector-title"> SubContribution </h3>
+            <p class="vector-title" id='subctrbcategory'>Analyzing ...</p>
             <select id="dropdown-subcontribution">
                 <!-- Options will be populated dynamically using JavaScript -->
             </select>
         </div>
-        <p id='subctrbcategory'>Analyzing ...</p>
         <p id='subctrbreason'>Analyzing ...</p>
     </div>
 
@@ -197,11 +197,11 @@
         function update_dropdown_recordingtech(rectype) {
             options = ['Manual Override'];
             if (rectype == 'Electrical') {
-                options = ['Manual Override', 'Electroencephalography(EEG)', 'Electrocorticography(ECoG)', 'Intracortical'];
+                options = ['Manual Override', 'Electroencephalography (EEG)', 'Electrocorticography (ECoG)', 'Intracortical'];
             } else if (rectype == 'Magnetic') {
                 options = ['Manual Override', 'MEG'];
             } else if (rectype == 'Metabolic') {
-                options = ['Manual Overide', 'Functional magnetic resonance imaging (fMRI)', 'Ultrasound, Functional near infrared spectroscopy (fNIRS)'];
+                options = ['Manual Overide', 'Functional magnetic resonance imaging (fMRI)', 'Ultrasound', 'Functional near infrared spectroscopy (fNIRS)'];
             }
             const list = document.getElementById('dropdown-recordingtech');
             list.innerHTML = '';
