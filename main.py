@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, url_for, flash, redirect
 import framework.davinci as davinci
 import framework.gpt_3p5 as gpt_3p5
@@ -7,9 +8,12 @@ from matplotlib.figure import Figure
 import numpy as np
 import framework.prompts as prompts
 import json
+import gspread
+from google.oauth2.service_account import Credentials
+import random
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'df0331cefc6c2b9a5d0208a726a5d1c0fd37324feba25506'
+app.config['SECRET_KEY'] = os.environ["APP_CONFIG_KEY"]
 
 def plot_model_accuracy():
     # Generate the figure **without using pyplot**.
@@ -45,6 +49,15 @@ def plot_model_accuracy():
     # Embed the result in the html output.
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return data
+
+def get_ref_title_abstract():
+    random.seed()
+    credentials = json.loads(os.environ["GSPREAD_CRED"])
+    gc = gspread.service_account_from_dict(credentials)
+    worksheet = gc.open('Training Set (Classified)').sheet1
+    records = worksheet.get_all_records()
+    index = random.randint(0, len(records)-1)
+    return records[index]['Title'], records[index]['Abstract']
 
 def get_ask(vector, parentvector, override):
     if vector == 'Summary':
@@ -195,6 +208,15 @@ def upload():
         print("GET")
     return 'OK', 200
 
+@app.route('/fetch/', methods=('GET', 'POST'))
+def fetch():
+    if request.method == 'POST':
+        return 'OK', 200
+
+    # GET request
+    title, abstract = get_ref_title_abstract()
+    return json.loads(f'{{"title": "{title}", "abstract": "{abstract}"}}')
+
 @app.route('/answer/<vector>/<model>/<title>/<abstract>/<temperature>/<parentvector>/<override>', methods=('GET', 'POST'))
 def answer(vector, model, title, abstract, temperature, parentvector=None, override=None):
     # POST request
@@ -205,7 +227,7 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
     # GET request
     prompts.init()
     debug = False
-    dummy = False
+    dummy = True
     temperature = float(temperature)
     ask = get_ask(vector, parentvector, override)
     if debug == True:

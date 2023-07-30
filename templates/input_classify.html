@@ -16,21 +16,44 @@
         min="0" max="2" value="1">
         <br>
         <br>
-        <label for="title">Research Title</label>
+        <strong><label for="title">Research Title</label></strong>
         <br>
-        <input type="text" name="title"
-               placeholder="Title goes here"
-               value="{{ request.form['title'] }}"></input>
-        <br>
+        <div class="input-wrapper">
+            <input id="title" type="text" name="title" style="width: 560px;"
+                placeholder="Add your research title"
+                value="{{ request.form['title'] }}">
+            <button type="button" formnovalidate onclick="fetch_title_abstract()">Get Abstract</button>
+        </div>
 
-        <label for="content">Research Abstract</label>
         <br>
-        <textarea name="content"
-                  placeholder="Abstract goes here"
+        <strong><label for="content">Research Abstract</label></strong>
+        <br>
+        <textarea id="abstract" name="content"
+                  placeholder="Add your research abstract (use 'Get Abstract' to fetch a sample abstract)"
                   rows="15"
-                  cols="60"
+                  cols="80"
                   >{{ request.form['content'] }}</textarea>
         <br>
-        <button type="submit">Classify</button>
+        <button type="submit" style="margin-right: 495px;">Classify</button>
+        <button type="button" formnovalidate onclick="clear_title_abstract()">Clear Abstract</button>
     </form>
+
+    <script>
+        function fetch_title_abstract() {
+            fetch(`/fetch/`)
+            .then(function (response) {
+                return response.json();
+            }).then(function (jsontext) {
+                document.getElementById('title').value = jsontext['title'];
+                document.getElementById('abstract').value = jsontext['abstract'];
+                //console.log('GET response text:');
+                //console.log(text);
+            });
+        }
+
+        function clear_title_abstract() {
+            document.getElementById('title').value = "";
+            document.getElementById('abstract').value = "";
+        }
+    </script>
 {% endblock %}

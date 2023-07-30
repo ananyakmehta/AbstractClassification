@@ -1,4 +1,6 @@
+Flask==2.1.0
+gspread
 matplotlib
+oauth2client
 openai
 tenacity
-Flask==2.1.0
