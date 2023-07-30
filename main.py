@@ -227,7 +227,7 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
     # GET request
     prompts.init()
     debug = False
-    dummy = True
+    dummy = False
     temperature = float(temperature)
     ask = get_ask(vector, parentvector, override)
     if debug == True:
