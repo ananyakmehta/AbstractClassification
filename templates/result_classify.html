@@ -12,7 +12,10 @@
     </div>
 
     <div class='message'>
-        <h3> PublicationType </h3>
+        <h3>
+            PublicationType
+            <span class="tooltip-icon" onclick="showTooltip('ptcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='ptcategory'>Analyzing ...</p>
             <select id="dropdown-publicationtype">
@@ -20,10 +23,21 @@
             </select>
         </div>
         <p id='ptreason'>Analyzing ...</p>
+
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-ptcategory">
+                <p><strong style="color: DodgerBlue;">Original Research:</strong> Publication developed a new dataset or made a contribution based on an existing dataset.</p>
+                <p><strong style="color: DodgerBlue;">Review:</strong> Publication provided a survey of some aspect of the BCI field.</p>
+                <p><strong style="color: DodgerBlue;">Other:</strong> Publication is an editorial, tutorial, release of public datasets, etc.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> DataType </h3>
+        <h3>
+            DataType
+            <span class="tooltip-icon" onclick="showTooltip('dtcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='dtcategory'>Analyzing ...</p>
             <select id="dropdown-datatype">
@@ -31,10 +45,20 @@
             </select>
         </div>
         <p id='dtreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-dtcategory">
+                <p><strong style="color: DodgerBlue;">Original Data:</strong> Publication developed their own dataset.</p>
+                <p><strong style="color: DodgerBlue;">Dataset:</strong> Publication uses an existing dataset.</p>
+                <p><strong style="color: DodgerBlue;">Other:</strong> Publication relies on simulated data, theory, or other sources.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> Population </h3>
+        <h3>
+            Population
+            <span class="tooltip-icon" onclick="showTooltip('popcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='popcategory'>Analyzing ...</p>
             <select id="dropdown-population">
@@ -42,10 +66,21 @@
             </select>
         </div>
         <p id='popreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-popcategory">
+                <p><strong style="color: DodgerBlue;">Animal:</strong> Publication uses animals as the subject/user of the BCI.</p>
+                <p><strong style="color: DodgerBlue;">Clinical:</strong> Publication uses a clinical (human) population as the subject/user of the BCI.</p>
+                <p><strong style="color: DodgerBlue;">Healthy:</strong> Publication uses healthy humans as the subject/user of the BCI.</p>
+                <p><strong style="color: DodgerBlue;">Other:</strong> Publication uses a cell culture or other population for their research.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> SubPopulation </h3>
+        <h3>
+            SubPopulation
+            <span class="tooltip-icon" onclick="showTooltip('subpopcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='subpopcategory'>Analyzing ...</p>
             <select id="dropdown-subpopulation">
@@ -53,10 +88,21 @@
             </select>
         </div>
         <p id='subpopreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-subpopcategory">
+                <p><strong style="color: DodgerBlue;">Animal:</strong> Cat, Fly, Frog, Mouse, Primate, Rabbit, Rat, Sheep.</p>
+                <p><strong style="color: DodgerBlue;">Clinical:</strong> ALS, Brainstem Stroke, Cancer, Cerebral Palsy, Charcot-Marie-Tooth, Dystonia, Eating Disorders, Epilepsy, Locked-in (unspecified), MDD, Minimally Conscious State, Multiple, Muscular Dystrophy, Paraplegic, Persistant Vegetative State, Primary Lateral Sclerosis, Schizophrenia, Severe Motor Deficit, Spinal Cord Injury, Stroke, TBI, Tetraplegic, Tremor, ADHD.</p>
+                <p><strong style="color: DodgerBlue;">Healthy:</strong> Adults, Children, College Age, Infants, Seniors.</p>
+                <p><strong style="color: DodgerBlue;">Other:</strong> Cell Culture.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> Purpose </h3>
+        <h3>
+            Purpose
+            <span class="tooltip-icon" onclick="showTooltip('purpcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='purpcategory'>Analyzing ...</p>
             <select id="dropdown-purpose">
@@ -64,10 +110,24 @@
             </select>
         </div>
         <p id='purpreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-purpcategory">
+                <p><strong style="color: DodgerBlue;">Enhance:</strong> Enables the CNS to respond to events/produce outputs at a level exceeding its natural ability.</p>
+                <p><strong style="color: DodgerBlue;">Supplement:</strong> Provides the CNS with new ways to interact with the world beyond any individual’s natural output.</p>
+                <p><strong style="color: DodgerBlue;">Replace:</strong> Provides an alternative system for performing a lost function (following disease/injury). The benefits of the BCI remain only while it is in operation.</p>
+                <p><strong style="color: DodgerBlue;">Restore:</strong> Enables a user to regain natural function that has been lost due to disease or injury. The benefits of the BCI, however, only occurs when the system is in use (i.e., they do not induce neural plasticity [contrast with improve below]).</p>
+                <p><strong style="color: DodgerBlue;">Improve:</strong> Allows a user to regain lost functionality (following disease/injury) with effects that remain even when the BCI system is not in use.</p>
+                <p><strong style="color: DodgerBlue;">Contribute:</strong> Uses a BCI to investigate phenomena in another field.</p>
+                <p><strong style="color: DodgerBlue;">Design:</strong> Focuses on the refinement of methods, technologies, or techniques used in multiple BCI applications.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> RecordingType </h3>
+        <h3>
+            RecordingType
+            <span class="tooltip-icon" onclick="showTooltip('rectypecategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='rectypecategory'>Analyzing ...</p>
             <select id="dropdown-recordingtype">
@@ -75,10 +135,20 @@
             </select>
         </div>
         <p id='rectypereason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-rectypecategory">
+                <p><strong style="color: DodgerBlue;">Electrical:</strong> Electroencephalography (EEG), Electrocorticography (ECoG), Intracortical.</p>
+                <p><strong style="color: DodgerBlue;">Magnetic:</strong> Magnetoencephalography (MEG).</p>
+                <p><strong style="color: DodgerBlue;">Metabolic:</strong> Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near-infrared spectroscopy (fNIRS).</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> RecordingTech </h3>
+        <h3>
+            RecordingTech
+            <span class="tooltip-icon" onclick="showTooltip('rectechcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='rectechcategory'>Analyzing ...</p>
             <select id="dropdown-recordingtech">
@@ -86,10 +156,20 @@
             </select>
         </div>
         <p id='rectechreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-rectechcategory">
+                <p><strong style="color: DodgerBlue;">Electrical:</strong> Electroencephalography (EEG), Electrocorticography (ECoG), Intracortical.</p>
+                <p><strong style="color: DodgerBlue;">Magnetic:</strong> Magnetoencephalography (MEG).</p>
+                <p><strong style="color: DodgerBlue;">Metabolic:</strong> Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near-infrared spectroscopy (fNIRS).</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> BrainSignal </h3>
+        <h3>
+            BrainSignal
+            <span class="tooltip-icon" onclick="showTooltip('bscategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='bscategory'>Analyzing ...</p>
             <select id="dropdown-brainsignal">
@@ -97,10 +177,27 @@
             </select>
         </div>
         <p id='bsreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-bscategory">
+                <p><strong style="color: DodgerBlue;">Attention:</strong> Alpha.</p>
+                <p><strong style="color: DodgerBlue;">Auditory:</strong> Auditory Evoked Potential (AEP), Acoustic Steady-State Response (ASSR), P300.</p>
+                <p><strong style="color: DodgerBlue;">Error:</strong> Error-Related Negativity (ERN), Feedback-Related Negativity (FRN).</p>
+                <p><strong style="color: DodgerBlue;">Frontal:</strong> Cognitive Tasks.</p>
+                <p><strong style="color: DodgerBlue;">Hybrid:</strong> Combinations of other paradigms presented here (e.g. Alpha-SSVEP, P300-SSVEP, etc.). Note: Hybrid describes a BCI where multiple signals and paradigms are used together in a single BCI system to create an enhanced BCI system. If the publication simply tests alternate paradigms, take advantage of the multi-select.</p>
+                <p><strong style="color: DodgerBlue;">Motor:</strong> Imagery Tasks, Movement.</p>
+                <p><strong style="color: DodgerBlue;">Slow Cortical Potential (SCP):</strong> SCPs are event-related potentials that are time-locked and phase-locked to specific sensorimotor events (i.e., they occur at predictable times before, during, or after specific events).</p>
+                <p><strong style="color: DodgerBlue;">Neurofeedback:</strong> Provides the user with feedback of their SCP to aid in their control of this signal.</p>
+                <p><strong style="color: DodgerBlue;">Visual:</strong> mVEP, P300, RSVP, SSVEP, VEP, N2pc.</p>
+                <p><strong style="color: DodgerBlue;">Other:</strong> (e.g. affective, consciousness, memory system, speech, spinal cord, subcortical, and tactile). Note: We include speech as “other” despite the fact that it relies on motor output, as speech is typically thought of as a unique function of the motor system.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> Paradigm </h3>
+        <h3>
+           Paradigm
+            <span class="tooltip-icon" onclick="showTooltip('pdigmcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='pdigmcategory'>Analyzing ...</p>
             <select id="dropdown-paradigm">
@@ -108,10 +205,29 @@
             </select>
         </div>
         <p id='pdigmreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-pdigmcategory">
+                <p><strong style="color: DodgerBlue;">Alpha:</strong> Changes in the alpha band (8-12 Hz) that occur when the user is asked to do an attention-related task (Bougrain et al., 2016).</p>
+                <p><strong style="color: DodgerBlue;">Auditory Evoked Potential (AEP):</strong> Stereotyped voltage deflections time-locked to an auditory stimulus.</p>
+                <p><strong style="color: DodgerBlue;">Acoustic Steady-State Response (ASSR):</strong> Stable oscillations in activity elicited by repetitive auditory stimuli.</p>
+                <p><strong style="color: DodgerBlue;">Auditory P300:</strong> A positive deflection in the EEG after a rare auditory stimulus.</p>
+                <p><strong style="color: DodgerBlue;">Error-Related Negativity (ERN):</strong> A negative component of an evoked potential that occurs after a response error (the user realizes they made a mistake; Bougrain et al., 2016).</p>
+                <p><strong style="color: DodgerBlue;">Feedback-Related Negativity (FRN):</strong> An evoked potential that occurs after a feedback error (the user is given feedback that is different than what they expected; Bougrain et al., 2016).</p>
+                <p><strong style="color: DodgerBlue;">Cognitive Tasks:</strong> Based on activity in response to higher cognitive tasks (e.g. mental rotation, mental arithmetic, etc.).</p>
+                <p><strong style="color: DodgerBlue;">Imagery Tasks:</strong> Changes in sensorimotor rhythms (SMRs) elicited by the imagination of movement.</p>
+                <p><strong style="color: DodgerBlue;">Visual P300:</strong> A positive deflection in the EEG after a rare visual stimulus. Rapid serial visual presentation (RSVP): Fast bursts of symbols presented successively at a central location (Acqualagna et al., 2010).</p>
+                <p><strong style="color: DodgerBlue;">Steady-state visual evoked potential (SSVEP):</strong> Stable oscillations in activity elicited by repetitive visual stimuli.</p>
+                <p><strong style="color: DodgerBlue;">Visual evoked potential (VEP):</strong> Stereotyped voltage deflections time-locked to a visual stimulus.</p>
+                <p><strong style="color: DodgerBlue;">N2pc:</strong> A component of an evoked potential that reflects the focusing of attention on a potential target in a visual search array (Luck, 2011).</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> Application </h3>
+        <h3>
+            Application
+            <span class="tooltip-icon" onclick="showTooltip('appcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='appcategory'>Analyzing ...</p>
             <select id="dropdown-application">
@@ -119,10 +235,27 @@
             </select>
         </div>
         <p id='appreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-appcategory">
+                <p><strong style="color: DodgerBlue;">Communication:</strong> Used to aid one’s ability to communicate (e.g. text entry, P300 speller).</p>
+                <p><strong style="color: DodgerBlue;">Offline/Online Target Selection:</strong> Used to discriminate between various targets/options.</p>
+                <p><strong style="color: DodgerBlue;">Brain Switch:</strong> Used to let user control (asynchronously) when the BCI is 'on' or 'off'.</p>
+                <p><strong style="color: DodgerBlue;">Neuroprosthetic/Robotic Control:</strong> Used to power an external prosthetic or robot.</p>
+                <p><strong style="color: DodgerBlue;">Gaming/Computer Control:</strong> Used to control a game or computer.</p>
+                <p><strong style="color: DodgerBlue;">Cursor/Movement Control:</strong> Used to control a cursor or the movement of a (virutal) object.</p>
+                <p><strong style="color: DodgerBlue;">Clinical/Brain-State Monitoring:</strong> Used to detect seizure, drowsiness, etc.</p>
+                <p><strong style="color: DodgerBlue;">Domotics/Environmental Control:</strong> Used to control one’s surroundings (e.g. a smart home).</p>
+                <p><strong style="color: DodgerBlue;">Image Triage:</strong> Used to order images by relevance or whether they are a 'target'.</p>
+                <p><strong style="color: DodgerBlue;">Neurofeedback:</strong> Used to provide feedback to the user of their current brain state.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> Contribution </h3>
+        <h3>
+            Contribution
+            <span class="tooltip-icon" onclick="showTooltip('ctrbcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='ctrbcategory'>Analyzing ...</p>
             <select id="dropdown-contribution">
@@ -130,10 +263,21 @@
             </select>
         </div>
         <p id='ctrbreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-ctrbcategory">
+                <p><strong style="color: DodgerBlue;">Basic Research:</strong> Research that seeks to uncover new knowledge about BCIs/the nervous system with no goal/objective in mind.</p>
+                <p><strong style="color: DodgerBlue;">Applied Research:</strong> Research that seeks to uncover new knowledge with a specific goal/objective in mind (i.e. there is a problem they want to solve).</p>
+                <p><strong style="color: DodgerBlue;">Experimental Development:</strong> The refinement of a BCI system through experiments on either specific subparts of a BCI system or the system as a whole.</p>
+                <p><strong style="color: DodgerBlue;">Support:</strong> The development of tools, software, datasets, etc. to aid BCI research.</p>
+            </div>
+        </div>
     </div>
 
     <div class='message'>
-        <h3> SubContribution </h3>
+        <h3>
+            SubContribution
+            <span class="tooltip-icon" onclick="showTooltip('subctrbcategory')">?</span>
+        </h3>
         <div class="vector-container">
             <p class="vector-title" id='subctrbcategory'>Analyzing ...</p>
             <select id="dropdown-subcontribution">
@@ -141,6 +285,30 @@
             </select>
         </div>
         <p id='subctrbreason'>Analyzing ...</p>
+        <div class="tooltip-wrapper">
+            <div class="tooltip-content" id="tooltip-subctrbcategory">
+                <p><strong style="color: DodgerBlue;">Ethics:</strong> The publication explores ethical questions in BCIs.</p>
+                <p><strong style="color: DodgerBlue;">Neural Signals:</strong> The publication explores neural signals that can be used in a BCI.</p>
+                <p><strong style="color: DodgerBlue;">Signal Modeling:</strong> The publication models neural signals used in a BCI.</p>
+                <p><strong style="color: DodgerBlue;">User:</strong> The publication explores how a user can interact with a BCI (e.g. whether a specific task can be used).</p>
+                <p><strong style="color: DodgerBlue;">Demographics:</strong> The publication explores whether a BCI can be used in a certain sub-population of subjects.</p>
+                <p><strong style="color: DodgerBlue;">Signal Measurement/Acquisition:</strong> The publication explores potential new techniques for measuring or acquiring neural signals.</p>
+                <p><strong style="color: DodgerBlue;">Clinical (Therapeutic):</strong> The publication seeks to develop a BCI as a therapeutic intervention for some clinical condition.</p>
+                <p><strong style="color: DodgerBlue;">Home Use:</strong> The publication seeks to develop a BCI for home use (e.g. outside the clinic).</p>
+                <p><strong style="color: DodgerBlue;">Purpose:</strong> The publication seeks to develop a BCI for a new purpose or user application.</p>
+                <p><strong style="color: DodgerBlue;">Healthy Population:</strong> The publication seeks to develop a BCI for a new population of users.</p>
+                <p><strong style="color: DodgerBlue;">Independent Use:</strong> The publication seeks to develop a BCI that can be used independently of the motor system.</p>
+                <p><strong style="color: DodgerBlue;">Collaborative:</strong> The publication seeks to develop a collaborative BCI system.</p>
+                <p><strong style="color: DodgerBlue;">User:</strong> The publication refines a BCI system by changing how the user interacts with the system.</p>
+                <p><strong style="color: DodgerBlue;">Digital Signal Processing (DSP):</strong> The publication refines a BCI system by changing the signal processing algorithms/techniques used.</p>
+                <p><strong style="color: DodgerBlue;">Signal Measurement/Acquisition:</strong> The publication refines a BCI system by changing how neural signals are measured/acquired.</p>
+                <p><strong style="color: DodgerBlue;">Feedback/Interface:</strong> The publication refines a BCI system by changing the feedback given to the user or the user interface.</p>
+                <p><strong style="color: DodgerBlue;">System:</strong> The publication refines a BCI system by altering the system as a whole.</p>
+                <p><strong style="color: DodgerBlue;">Education:</strong> The publication develops a new educational program for disseminating information about BCI research.</p>
+                <p><strong style="color: DodgerBlue;">Tools/Software:</strong> The publication develops new tools/software for use in BCI research.</p>
+                <p><strong style="color: DodgerBlue;">Public Dataset:</strong> The publication develops a public dataset for use in BCI research.</p>
+            </div>
+        </div>
     </div>
 
     <button type="submit" onclick="upload_results()">Upload Results</button>
@@ -549,6 +717,22 @@
                 //console.log(text);
             });
             window.location.href = '/classify/';
+        }
+
+        function showTooltip(category) {
+            const tooltip = document.getElementById(`tooltip-${category}`);
+
+            // Toggle tooltip visibility when the tooltip icon is clicked
+            tooltip.style.display = tooltip.style.display === 'none' ? 'block' : 'none';
+
+            // Add a click event listener to the document
+            document.addEventListener('click', function(event) {
+                // Check if the clicked element is inside the tooltip
+                if (!tooltip.contains(event.target) && event.target !== document.querySelector(`.tooltip-icon[onclick="showTooltip('${category}')"]`)) {
+                    // If the click is outside the tooltip, hide the tooltip
+                    tooltip.style.display = 'none';
+                }
+            });
         }
 
         create_dropdowns();
