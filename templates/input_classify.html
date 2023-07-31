@@ -3,16 +3,16 @@
 {% block content %}
     <form method="post" class="form-container">
         <h1>{% block title %} Provide a title and abstract for classification{% endblock %}</h1>
-        <b>Model specifications</b>
+        <b>Model specifications (Optional)</b>
         <div class="button-container">
-            <label for="model">Choose a LLM model</label>
+            <label for="model">Choose a Large Language Model (LLM)</label>
             <select name="model" id="model">
                 <option value="Model A" selected>Model A</option>
                 <option value="Model B">Model B</option>
             </select>
         </div>
         <div class="button-container">
-            <label for="temperature">Temperature (deterministic ... random)</label>
+            <label for="temperature">Temperature (0: deterministic, 2: random)</label>
             <input name="temperature" type="number" step="0.1" id="temperature"
                 min="0" max="2" value="1">
         </div>
@@ -30,7 +30,7 @@
         <strong><label for="content">Research Abstract</label></strong>
         <div class="input-wrapper">
             <textarea id="abstract" name="content"
-                placeholder="Add your research abstract (use 'Get Abstract' to fetch a sample abstract)"
+                placeholder="Add your research abstract or use 'Get Abstract' to fetch a sample abstract for classification."
                 rows="15"
                 cols="80"
                 >{{ request.form['content'] }}

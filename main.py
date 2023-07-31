@@ -215,6 +215,7 @@ def fetch():
 
     # GET request
     title, abstract = get_ref_title_abstract()
+    abstract = abstract.replace('"', '\\"')
     return json.loads(f'{{"title": "{title}", "abstract": "{abstract}"}}')
 
 @app.route('/answer/<vector>/<model>/<title>/<abstract>/<temperature>/<parentvector>/<override>', methods=('GET', 'POST'))
