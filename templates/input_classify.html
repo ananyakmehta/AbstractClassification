@@ -1,41 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Provide a title and abstract for classification{% endblock %}</h1>
-    <form method="post">
+    <form method="post" class="form-container">
+        <h1>{% block title %} Provide a title and abstract for classification{% endblock %}</h1>
         <b>Model specifications</b>
+        <div class="button-container">
+            <label for="model">Choose a LLM model</label>
+            <select name="model" id="model">
+                <option value="Model A" selected>Model A</option>
+                <option value="Model B">Model B</option>
+            </select>
+        </div>
+        <div class="button-container">
+            <label for="temperature">Temperature (deterministic ... random)</label>
+            <input name="temperature" type="number" step="0.1" id="temperature"
+                min="0" max="2" value="1">
+        </div>
         <br>
-        <label for="model">Choose a LLM model</label>
-        <select name="model" id="model">
-            <option value="Model A" selected>Model A</option>
-            <option value="Model B">Model B</option>
-        </select>
         <br>
-        <label for="temperature">Temperature (deterministic ... random)</label>
-        <input name="temperature" type="number" step="0.1" id="temperature"
-        min="0" max="2" value="1">
-        <br>
-        <br>
+
         <strong><label for="title">Research Title</label></strong>
-        <br>
         <div class="input-wrapper">
-            <input id="title" type="text" name="title" style="width: 560px;"
+            <textarea id="title" name="title" rows="1" cols="80"
                 placeholder="Add your research title"
-                value="{{ request.form['title'] }}">
-            <button type="button" formnovalidate onclick="fetch_title_abstract()">Get Abstract</button>
+                >{{ request.form['title'] }}
+            </textarea>
         </div>
 
-        <br>
         <strong><label for="content">Research Abstract</label></strong>
-        <br>
-        <textarea id="abstract" name="content"
-                  placeholder="Add your research abstract (use 'Get Abstract' to fetch a sample abstract)"
-                  rows="15"
-                  cols="80"
-                  >{{ request.form['content'] }}</textarea>
-        <br>
-        <button type="submit" style="margin-right: 443px;">Classify Abstract</button>
-        <button type="button" formnovalidate onclick="clear_title_abstract()">Clear Abstract</button>
+        <div class="input-wrapper">
+            <textarea id="abstract" name="content"
+                placeholder="Add your research abstract (use 'Get Abstract' to fetch a sample abstract)"
+                rows="15"
+                cols="80"
+                >{{ request.form['content'] }}
+            </textarea>
+        </div>
+
+        <div class="button-container">
+            <button type="button" formnovalidate onclick="fetch_title_abstract()">Get Abstract</button>
+            <button type="button" formnovalidate onclick="clear_title_abstract()">Clear Abstract</button>
+            <button type="submit">Classify Abstract</button>
+        </div>
     </form>
 
     <script>
@@ -55,5 +61,6 @@
             document.getElementById('title').value = "";
             document.getElementById('abstract').value = "";
         }
+        clear_title_abstract();
     </script>
 {% endblock %}
