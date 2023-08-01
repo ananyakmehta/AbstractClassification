@@ -1,5 +1,173 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<img src='data:image/png;base64,{{messages}}'/>
+    <div class="progress-bar-container" id=container-publicationtype>
+        <div class="progress-bar-row">
+            <h3 class="progress-bar-title">PublicationType</h3>
+            <p class="progress-bar-configuration">Configuration: </p>
+            <p class="progress-bar-status">Status: </p>
+            <p class="progress-bar-result">Accuracy: </p>
+        </div>
+        <div class="progress-bar-row">
+            <div class="progress-bar">
+                <div class="progress-bar-fill"></div>
+                <div class="progress-bar-label"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-bar-container" id=container-datatype>
+        <div class="progress-bar-row">
+            <h3 class="progress-bar-title">DataType</h3>
+            <p class="progress-bar-configuration">Configuration: </p>
+            <p class="progress-bar-status">Status: </p>
+            <p class="progress-bar-result">Accuracy: </p>
+        </div>
+        <div class="progress-bar-row">
+            <div class="progress-bar">
+                <div class="progress-bar-fill"></div>
+                <div class="progress-bar-label"></div>
+            </div>
+        </div>
+    </div>
+    <img src='data:image/png;base64,{{messages}}'/>
+
+    <script>
+        function update_progress_bar_status(container_id, fill_width,
+            label_content, status, accuracy) {
+            const container = document.getElementById(container_id);
+            const pbfill = container.querySelector(".progress-bar-fill");
+            const pblabel = container.querySelector(".progress-bar-label");
+            const pbstatus = container.querySelector(".progress-bar-status");
+            const pbresult = container.querySelector(".progress-bar-result");
+
+            // Update the fill width and label content
+            pbfill.style.width = fill_width;
+            pblabel.innerText = label_content;
+            pbstatus.innerText = status;
+            pbresult.innerText = accuracy;
+        }
+
+        function get_vector_from_container(cid) {
+            if (cid == "container-publicationtype") {
+                return "PublicationType";
+            } else if (cid == "container-datatype") {
+                return "DataType";
+            }
+
+            return null;
+        }
+
+        function get_container_from_vector(vector) {
+            if (vector == "PublicationType") {
+                return "container-publicationtype";
+            } else if (vector == "DataType") {
+                return "container-datatype";
+            }
+
+            return null;
+        }
+
+        function update_container(container_id) {
+            return new Promise((resolve) => {
+                async function update_progress() {
+                    // TODO model and temperature will get their values from the
+                    // input_evaluate.html page
+                    model = '"Model A"'
+                    temperature = 1.0
+                    let match = 0;
+                    let reccnt = 25;
+                    for (let i = 1; i <= reccnt; i++) {
+                        try {
+                            // Perform the fetch request here
+                            vector = get_vector_from_container(container_id);
+                            const response = await
+                                fetch(`/compare/${model}/${temperature}/${vector}/${i-1}/${match}`, {
+                                method: 'GET',
+                            });
+
+                            if (response.ok) {
+                                const progress_data = await response.json();
+
+                                // Update the progress bar and status
+                                container_id =
+                                    get_container_from_vector(progress_data['vector']);
+                                index = parseInt(progress_data['index'], 10);
+                                total = index + 1;
+                                match = parseInt(progress_data['match'], 10);
+                                width = total * (100/reccnt);
+                                accuracy = (match / total) * 100;
+                                update_progress_bar_status(
+                                    container_id,
+                                    width + "%",
+                                    width + "%",
+                                    "Processing abstract: " + total.toString(),
+                                    "Accuracy: " + accuracy.toFixed(2) + "%"
+                                );
+                            } else {
+                                console.error('API Error:', response.status);
+                            }
+                        } catch (error) {
+                            console.error('Fetch Error:', error);
+                        }
+                    }
+
+                    resolve();
+                }
+
+                // Start the progress update
+                update_progress();
+            });
+        }
+
+        // Function to simulate progress and update the progress bar
+        function simulate_progress(container_id) {
+            return new Promise((resolve) => {
+                let duration = 100;
+                if (container_id == "container-datatype") {
+                    duration = 200;
+                }
+                async function update_progress() {
+                    for (let i = 0; i < 25; i++) {
+                        width = (i + 1) * (100/25);
+                        update_progress_bar_status(
+                            container_id,
+                            width + "%",
+                            width + "%",
+                            width.toString(),
+                            width + "%"
+                        );
+
+                        // Add a delay of 'duration' milliseconds
+                        await new Promise((resolve) => setTimeout(resolve, duration));
+                    }
+
+                    resolve();
+                }
+
+                update_progress();
+            });
+        }
+
+        async function update_all_containers() {
+            try {
+                await Promise.all([
+                    update_container("container-publicationtype"),
+                    update_container("container-datatype")
+                ]);
+
+                // All containers have reached 100% progress
+                console.log("All containers have reached 100% progress.");
+            } catch (error) {
+                console.error("Error updating progress bars:", error);
+            }
+        }
+
+        // Function to show the results after processing is complete
+        function show_results() {
+            console.log('All progress bars are complete!');
+        }
+
+        document.addEventListener('DOMContentLoaded', update_all_containers);
+    </script>
 {% endblock %}

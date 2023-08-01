@@ -12,9 +12,11 @@ import gspread
 from google.oauth2.service_account import Credentials
 import random
 import logging
+import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ["APP_CONFIG_KEY"]
+grecords = None
 
 # Set the logging level for werkzeug to ERROR
 log = logging.getLogger('werkzeug')
@@ -55,12 +57,18 @@ def plot_model_accuracy():
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
     return data
 
+def get_records():
+    global grecords
+    if grecords == None:
+        credentials = json.loads(os.environ["GSPREAD_CRED"])
+        gc = gspread.service_account_from_dict(credentials)
+        worksheet = gc.open('Training Set (Classified)').sheet1
+        grecords = worksheet.get_all_records()
+    return grecords
+
 def get_ref_title_abstract():
     random.seed()
-    credentials = json.loads(os.environ["GSPREAD_CRED"])
-    gc = gspread.service_account_from_dict(credentials)
-    worksheet = gc.open('Training Set (Classified)').sheet1
-    records = worksheet.get_all_records()
+    records = get_records()
     index = random.randint(0, len(records)-1)
     return records[index]['Title'], records[index]['Abstract']
 
@@ -237,13 +245,66 @@ def upload():
         print("GET")
     return 'OK', 200
 
+@app.route('/compare/<model>/<temperature>/<vector>/<index>/<match>', methods=('GET', 'POST'))
+def compare(model, temperature, vector, index, match):
+    if request.method == 'POST':
+        return 'OK', 200
+
+    # GET request
+    prompts.init()
+    records = get_records()
+    index = int(index)
+    title = records[index]['Title']
+    abstract = records[index]['Abstract']
+    override = 'Manual Override'
+    temperature = float(temperature)
+    ask = generate_prompt(vector, None, override)
+    debug = 0
+    if debug & 8:
+        print("Vector -> {0}".format(vector))
+        print("Model -> {0}".format(model))
+        print("Temperature -> {0}".format(temperature))
+        print("Override -> {0}".format(override))
+
+    if model == '"Model A"':
+        response = gpt_3p5.get_category_reason(prompts.knbase, title, abstract,
+                                               ask, temperature, debug)
+    elif model == '"Model B"':
+        response = davinci.get_category_reason(prompts.knbase, title, abstract,
+                                               ask, temperature, debug)
+
+    predicted = response['category']
+    predicted = predicted.strip('"\'')
+    reference = records[index][vector]
+    if debug & 8:
+        print("Predicted: {0}, Reference: {1}".format(predicted, reference))
+    if model == '"Model A"':
+        response = gpt_3p5.compare_categories(predicted, reference, temperature,
+                                              debug)
+    elif model == '"Model B"':
+        response = davinci.compare_categories(predicted, reference, temperature,
+                                              debug)
+    verdict = response['verdict']
+    verdict = verdict.strip('"\'')
+    if "True" in verdict:
+        match = int(match) + 1
+
+    if debug & 8:
+        print("Vector: {0}, Verdict: {1}, Match: {2}, Index: {3}".format(vector, response['verdict'], match, index))
+
+    return json.loads(f'{{"vector":"{vector}", "index": "{index}", "match": "{match}"}}')
+
 @app.route('/fetch/', methods=('GET', 'POST'))
 def fetch():
     if request.method == 'POST':
         return 'OK', 200
 
     # GET request
-    title, abstract = get_ref_title_abstract()
+    random.seed()
+    records = get_records()
+    index = random.randint(0, len(records)-1)
+    title = records[index]['Title']
+    abstract = records[index]['Abstract']
     abstract = abstract.replace('"', '\\"')
     return json.loads(f'{{"title": "{title}", "abstract": "{abstract}"}}')
 
@@ -284,7 +345,8 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
                                                    ask, temperature, debug)
         ask = generate_prompt(vector, parentvector, override, response['category'])
         if ask == None:
-            response = {"category": "None", "reason": "None"}
+            category = response['category']
+            response = {"category": f"None (Original: {category})", "reason": "None"}
 
     return response
 
