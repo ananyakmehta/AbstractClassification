@@ -230,6 +230,8 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
     debug = False
     dummy = False
     temperature = float(temperature)
+    title = title.replace('_SLASH_', '/')
+    abstract = abstract.replace('_SLASH_', '/')
     ask = get_ask(vector, parentvector, override)
     if debug == True:
         print("Vector -> {0}".format(vector))
@@ -272,12 +274,7 @@ def classify():
             model = request.form.get('model')
             temperature = float(request.form.get('temperature'))
             title = title.strip()
-            # TODO Use encodeURIComponent() in javascript to escape '/' and '\'
-            title = title.translate({ord(c): " " for c in "!@#$%^&*()[]{};:/<>?\|`~-=_+"})
             abstract = abstract.strip()
-            # TODO Use encodeURIComponent() in javascript to escape '/' and '\'
-            abstract = abstract.translate({ord(c): " " for c in "!@#$%^&*()[]{};:/<>?\|`~-=_+"})
-
             return render_template('result_classify.html', model=model, title=title,
                                    abstract=abstract, temperature=temperature)
 
