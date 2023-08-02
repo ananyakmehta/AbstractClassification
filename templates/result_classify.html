@@ -352,6 +352,8 @@
                 options = ['Manual Override', 'Adults', 'Children', 'College Age', 'Infants', 'Seniors'];
             } else if (population == 'Other') {
                 options = ['Manual Override', 'Cell Culture'];
+            } else if (population == 'NA or TBD') {
+                options = [''];
             }
             const list = document.getElementById('dropdown-subpopulation');
             list.innerHTML = '';
@@ -370,6 +372,8 @@
                 options = ['Manual Override', 'MEG'];
             } else if (rectype == 'Metabolic') {
                 options = ['Manual Overide', 'Functional magnetic resonance imaging (fMRI)', 'Ultrasound', 'Functional near infrared spectroscopy (fNIRS)'];
+            } else if (rectype == 'NA or TBD') {
+                options = [''];
             }
             const list = document.getElementById('dropdown-recordingtech');
             list.innerHTML = '';
@@ -395,13 +399,13 @@
             } else if (brainsignal == 'Motor') {
                 options = ['Manual Override', 'Imagery Tasks', 'Movement'];
             } else if (brainsignal == 'Other') {
-                options = ['Manual Override', 'NA_TBD'];
+                options = ['Manual Override', 'NA or TBD'];
             } else if (brainsignal == 'SCP') {
                 options = ['Manual Override', 'Neurofeedback'];
             } else if (brainsignal == 'Visual') {
                 options = ['Manual Override', 'mVEP', 'N2pc', 'P300', 'RSVP', 'SSVEP', 'VEP'];
-            } else if (brainsignal == 'NA_TBD') {
-                options = ['Manual Override', 'NA_TBD'];
+            } else if (brainsignal == 'NA or TBD') {
+                options = [''];
             }
             const list = document.getElementById('dropdown-paradigm');
             list.innerHTML = '';
@@ -452,6 +456,11 @@
         }
 
         function update_subpopulation(population, selected) {
+            if (population.includes('NA') || population.includes('TBD')) {
+                document.getElementById('subpopcategory').innerHTML = 'None';
+                document.getElementById('subpopreason').innerHTML = 'None';
+                return;
+            }
             fetch_data(`/answer/SubPopulation/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${population}/${selected}`, 'subpopcategory', 'subpopreason');
         }
 
@@ -460,11 +469,14 @@
             .then(function (response) {
                 return response.json();
             }).then(function (jsontext) {
-                document.getElementById('popcategory').innerHTML = jsontext['category'];
+                population = jsontext['category'];
+                if (population.includes('NA') || population.includes('TBD')) {
+                    population = 'NA or TBD';
+                }
+                document.getElementById('popcategory').innerHTML = population;
                 document.getElementById('popreason').innerHTML = jsontext['reason'];
                 //console.log('GET response text:');
                 //console.log(jsontext);
-                population = jsontext['category'];
                 update_subpopulation(population, 'Manual Override');
                 update_dropdown_subpopulation(population);
             });
@@ -474,26 +486,39 @@
             fetch_data(`/answer/Purpose/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`, 'purpcategory', 'purpreason');
         }
 
+        function update_recordingtech(rectype, selected) {
+            if (rectype.includes('NA') || rectype.includes('TBD')) {
+                document.getElementById('rectechcategory').innerHTML = 'None';
+                document.getElementById('rectechreason').innerHTML = 'None';
+                return;
+            }
+            fetch_data(`/answer/RecordingTech/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${rectype}/${selected}`, 'rectechcategory', 'rectechreason');
+        }
+
         function update_recordingtype(selected) {
             fetch(`/answer/RecordingType/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/0/${selected}`)
             .then(function (response) {
                 return response.json();
             }).then(function (jsontext) {
-                document.getElementById('rectypecategory').innerHTML = jsontext['category'];
+                rectype = jsontext['category'];
+                if (rectype.includes('NA') || rectype.includes('TBD')) {
+                    rectype = 'NA or TBD';
+                }
+                document.getElementById('rectypecategory').innerHTML = rectype;
                 document.getElementById('rectypereason').innerHTML = jsontext['reason'];
                 //console.log('GET response text:');
                 //console.log(jsontext);
-                rectype = jsontext['category'];
                 update_recordingtech(rectype, 'Manual Override');
                 update_dropdown_recordingtech(rectype);
             });
         }
 
-        function update_recordingtech(rectype, selected) {
-            fetch_data(`/answer/RecordingTech/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${rectype}/${selected}`, 'rectechcategory', 'rectechreason');
-        }
-
         function update_paradigm(brainsignal, selected) {
+            if (brainsignal.includes('NA') || brainsignal.includes('TBD')) {
+                document.getElementById('pdigmcategory').innerHTML = 'None';
+                document.getElementById('pdigmreason').innerHTML = 'None';
+                return;
+            }
             fetch_data(`/answer/Paradigm/{{model|tojson}}/{{title|tojson}}/{{abstract|tojson}}/{{temperature|tojson}}/${brainsignal}/${selected}`, 'pdigmcategory', 'pdigmreason');
         }
 
@@ -502,11 +527,14 @@
             .then(function (response) {
                 return response.json();
             }).then(function (jsontext) {
-                document.getElementById('bscategory').innerHTML = jsontext['category'];
+                brainsignal = jsontext['category'];
+                if (brainsignal.includes('NA') || brainsignal.includes('TBD')) {
+                    brainsignal = 'NA or TBD';
+                }
+                document.getElementById('bscategory').innerHTML = brainsignal;
                 document.getElementById('bsreason').innerHTML = jsontext['reason'];
                 //console.log('GET response text:');
                 //console.log(jsontext);
-                brainsignal = jsontext['category'];
                 update_paradigm(brainsignal, 'Manual Override');
                 update_dropdown_paradigm(brainsignal);
             });
@@ -658,17 +686,16 @@
         };
 
         function create_dropdowns() {
-            // TODO take care of NA/TBD
             // PublicationType
-            options = ['Manual Override', 'Original Research', 'Review', 'Other', 'NA_TBD'];
+            options = ['Manual Override', 'Original Research', 'Review', 'Other', 'NA or TBD'];
             create_dropdown('dropdown-publicationtype', options, on_change_publicationtype);
 
             // DataType
-            options = ['Manual Override', 'Original Data', 'Dataset', 'Other', 'NA_TBD'];
+            options = ['Manual Override', 'Original Data', 'Dataset', 'Other', 'NA or TBD'];
             create_dropdown('dropdown-datatype', options, on_change_datatype);
 
             // Population
-            options = ['Manual Override', 'Animal', 'Clinical', 'Healthy', 'Other', 'NA_TBD'];
+            options = ['Manual Override', 'Animal', 'Clinical', 'Healthy', 'Other', 'NA or TBD'];
             create_dropdown('dropdown-population', options, on_change_population);
 
             // SubPopulation
@@ -676,11 +703,11 @@
             create_dropdown('dropdown-subpopulation', options, on_change_subpopulation);
 
             // Purpose
-            options = ['Manual Override', 'Contribute', 'Design', 'Enhance', 'Improve', 'Replace', 'Restore', 'Supplement', 'NA_TBD'];
+            options = ['Manual Override', 'Contribute', 'Design', 'Enhance', 'Improve', 'Replace', 'Restore', 'Supplement', 'NA or TBD'];
             create_dropdown('dropdown-purpose', options, on_change_purpose);
 
             // RecordingType
-            options = ['Manual Override', 'Electrical', 'Magnetic', 'Metabolic', 'NA_TBD'];
+            options = ['Manual Override', 'Electrical', 'Magnetic', 'Metabolic', 'NA or TBD'];
             create_dropdown('dropdown-recordingtype', options, on_change_recordingtype);
 
             // RecordingTech
@@ -688,7 +715,7 @@
             create_dropdown('dropdown-recordingtech', options, on_change_recordingtech);
 
             // BrainSignal
-            options = ['Manual Override', 'Auditory', 'Error', 'Frontal', 'Hybrid', 'Motor', 'Other', 'SCP', 'Visual', 'NA_TBD'];
+            options = ['Manual Override', 'Auditory', 'Error', 'Frontal', 'Hybrid', 'Motor', 'Other', 'SCP', 'Visual', 'NA or TBD'];
             create_dropdown('dropdown-brainsignal', options, on_change_brainsignal);
 
             // Paradigm
@@ -696,7 +723,7 @@
             create_dropdown('dropdown-paradigm', options, on_change_paradigm);
 
             // Application
-            options = ['Manual Override', 'Brain Switch', 'Clinical or Brain-State Monitoring', 'Communication', 'Cursor or Movement Control', 'Domotics or Environmental Control', 'Gaming or Computer Control', 'Image Triage', 'Neurofeedback', 'Neurprosthetic or Robotics', 'Offline or Online Target Selection', 'Other', 'NA_TBD'];
+            options = ['Manual Override', 'Brain Switch', 'Clinical or Brain-State Monitoring', 'Communication', 'Cursor or Movement Control', 'Domotics or Environmental Control', 'Gaming or Computer Control', 'Image Triage', 'Neurofeedback', 'Neurprosthetic or Robotics', 'Offline or Online Target Selection', 'Other', 'NA or TBD'];
             create_dropdown('dropdown-application', options, on_change_application);
 
             // Contribution
