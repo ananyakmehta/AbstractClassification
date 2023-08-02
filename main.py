@@ -75,7 +75,7 @@ def get_ask(vector, parentvector, override):
                    f'Return the category as "{override}" and justify the choice.')
         else:
             ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
-                   prompts.post_prompt + '\n' + prompts.datatypedef)
+                   prompts.post_prompt)
     elif vector == 'Population':
         if override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[3] + '. ' +
@@ -125,7 +125,7 @@ def get_ask(vector, parentvector, override):
                    f'Return the category as "{override}" and justify the choice.')
         else:
             ask = (prompts.pre_prompt + subask + '. ' +
-                   prompts.post_prompt + '\n' + prompts.rectypedef)
+                   prompts.post_prompt)
     elif vector == 'BrainSignal':
         if override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[8] + '. ' +

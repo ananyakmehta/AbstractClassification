@@ -104,7 +104,7 @@ Tools/Software: The publication develops new tools/software for use in BCI resea
 Public Dataset: The publication develops a public dataset for use in BCI research."
 
 pre_prompt = "Options: "
-post_prompt = "Select from the given options only. Do not return an answer that is not listed in the options."
+post_prompt = "Select from the given options only. Do not return an answer that is not listed in the options. Return the category as 'None' if the given options are not suitable."
 
 cat_top = [
         "Reserved", \
@@ -126,7 +126,7 @@ cat_top = [
         ]
 
 cat_rectech = [ \
-        "Electroencephalography(EEG), Electrocorticography(ECoG), Intracortical", \
+        "Electroencephalography (EEG), Electrocorticography (ECoG), Intracortical", \
         "MEG", \
         "Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near infrared spectroscopy (fNIRS)"
         ]
