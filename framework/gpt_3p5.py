@@ -33,38 +33,48 @@ def get_category_reason(knbase, title, abstract, ask, temperature, debug):
     prompt.append({"role":"system", "content":knbase})
     prompt.append({"role":"user",
                    "content":'Title: '+title+'\n'+'Abstract: '+abstract+'\n'+ask})
-    response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
-            messages=prompt,
-            functions=functions,
-            function_call={"name": "print_category_reason"},
-            temperature=temperature,
-            max_tokens=1024,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0)
-    if debug == True:
+
+    if debug & 1:
         print(prompt)
-        print(response)
-    return json.loads(response.choices[0].message.function_call.arguments)
+    if debug & 4:
+        data = {"category": "Sample category", "reason": "Sample reason"}
+    else:
+        response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo-0613",
+                messages=prompt,
+                functions=functions,
+                function_call={"name": "print_category_reason"},
+                temperature=temperature,
+                max_tokens=1024,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0)
+        data = json.loads(response.choices[0].message.function_call.arguments)
+    if debug & 2:
+        print(data)
+    return data
 
 @retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
 def get_abstract_summary(title, abstract, ask, temperature, debug):
     prompt = []
     prompt.append({"role":"user",
                    "content":'Title: '+title+'\n'+'Abstract: '+abstract+'\n'+ask})
-    response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
-            messages=prompt,
-            temperature=temperature,
-            max_tokens=1024,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0)
-    if debug == True:
+    if debug & 1:
         print(prompt)
-        print(response)
-    data = 'Summary: ' + response.choices[0]["message"]["content"]
+    if debug & 4:
+        data = 'Summary: Sample summary'
+    else:
+        response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo-0613",
+                messages=prompt,
+                temperature=temperature,
+                max_tokens=1024,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0)
+        data = 'Summary: ' + response.choices[0]["message"]["content"]
+    if debug & 2:
+        print(data)
     return data
 
 if __name__ == "__main__":
