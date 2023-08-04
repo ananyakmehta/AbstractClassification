@@ -120,7 +120,7 @@ cat_top = [
         "Brain Switch, Clinical/Brain-State Monitoring, Communication, \
         Cursor/Movement Control, Domotics/Environmental Control, \
         Gaming/Computer Control, Image Triage, NA/TBD, Neurofeedback, \
-        Neurprosthetic/Robotics, Offline/Online Target Selection, Other", \
+        Neuroprosthetic/Robotics, Offline/Online Target Selection, Other", \
         "Applied Research, Basic Research, Experimental Development, Support", \
         "Reserved"
         ]

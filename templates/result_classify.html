@@ -317,8 +317,10 @@
         // Sanitize title and abstract
         title = {{ title|tojson }};
         title = title.replace(/\//g, '_SLASH_');
+        title = title.replace(/%/g, '_PERCENT_');
         abstract = {{ abstract|tojson }};
         abstract = abstract.replace(/\//g, '_SLASH_');
+        abstract = abstract.replace(/%/g, '_PERCENT_');
 
         function fetch_data(url, category, reason) {
             fetch(url)
@@ -729,7 +731,7 @@
             create_dropdown('dropdown-paradigm', options, on_change_paradigm);
 
             // Application
-            options = ['Manual Override', 'Brain Switch', 'Clinical or Brain-State Monitoring', 'Communication', 'Cursor or Movement Control', 'Domotics or Environmental Control', 'Gaming or Computer Control', 'Image Triage', 'Neurofeedback', 'Neurprosthetic or Robotics', 'Offline or Online Target Selection', 'Other', 'NA or TBD'];
+            options = ['Manual Override', 'Brain Switch', 'Clinical or Brain-State Monitoring', 'Communication', 'Cursor or Movement Control', 'Domotics or Environmental Control', 'Gaming or Computer Control', 'Image Triage', 'Neurofeedback', 'Neuroprosthetic or Robotics', 'Offline or Online Target Selection', 'Other', 'NA or TBD'];
             create_dropdown('dropdown-application', options, on_change_application);
 
             // Contribution

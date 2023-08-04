@@ -72,11 +72,17 @@ def get_ref_title_abstract():
     index = random.randint(0, len(records)-1)
     return records[index]['Title'], records[index]['Abstract']
 
+def have_common_words(str1, str2):
+    words1 = set(str1.replace(',', ' ').replace('/', ' ').split())
+    words2 = set(str2.replace(',', ' ').replace('/', ' ').split())
+    common_words = words1.intersection(words2)
+    return len(common_words) > 0
+
 def generate_prompt(vector, parentvector, override, category=None):
     if vector == 'Summary':
         ask = "Summarize the abstract for a high school student."
     elif vector == 'PublicationType':
-        if category != None and category not in prompts.cat_top[1]:
+        if category != None and not have_common_words(category, prompts.cat_top[1]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
@@ -85,7 +91,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             ask = (prompts.pre_prompt + prompts.cat_top[1] + '. ' +
                    prompts.post_prompt + '\n' + prompts.pubtypedef)
     elif vector == 'DataType':
-        if category != None and category not in prompts.cat_top[2]:
+        if category != None and not have_common_words(category, prompts.cat_top[2]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
@@ -94,7 +100,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             ask = (prompts.pre_prompt + prompts.cat_top[2] + '. ' +
                    prompts.post_prompt)
     elif vector == 'Population':
-        if category != None and category not in prompts.cat_top[3]:
+        if category != None and not have_common_words(category, prompts.cat_top[3]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[3] + '. ' +
@@ -112,7 +118,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             subask = prompts.cat_subpop[2]
         elif parentvector == "Other":
             subask = prompts.cat_subpop[3]
-        if category != None and category not in subask:
+        if category != None and not have_common_words(category, subask):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + subask + '. ' +
@@ -120,7 +126,7 @@ def generate_prompt(vector, parentvector, override, category=None):
         else:
             ask = (prompts.pre_prompt + subask + '. ' + prompts.post_prompt)
     elif vector == 'Purpose':
-        if category != None and category not in prompts.cat_top[5]:
+        if category != None and not have_common_words(category, prompts.cat_top[5]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[5] + '. ' +
@@ -129,7 +135,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             ask = (prompts.pre_prompt + prompts.cat_top[5] + '. ' +
                    prompts.post_prompt + '\n' + prompts.purposedef)
     elif vector == 'RecordingType':
-        if category != None and category not in prompts.cat_top[6]:
+        if category != None and not have_common_words(category, prompts.cat_top[6]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[6] + '. ' +
@@ -145,7 +151,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             subask = prompts.cat_rectech[1]
         elif parentvector == "Metabolic":
             subask = prompts.cat_rectech[2]
-        if category != None and category not in subask:
+        if category != None and not have_common_words(category, subask):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + subask + '. ' +
@@ -154,7 +160,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             ask = (prompts.pre_prompt + subask + '. ' +
                    prompts.post_prompt)
     elif vector == 'BrainSignal':
-        if category != None and category not in prompts.cat_top[8]:
+        if category != None and not have_common_words(category, prompts.cat_top[8]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[8] + '. ' +
@@ -182,7 +188,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             subask = prompts.cat_sigpdim[7]
         elif parentvector == "Visual":
             subask = prompts.cat_sigpdim[8]
-        if category != None and category not in subask:
+        if category != None and not have_common_words(category, subask):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + subask + '. ' +
@@ -191,7 +197,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             ask = (prompts.pre_prompt + subask + '. ' +
                    prompts.post_prompt + '\n' + prompts.signaldef)
     elif vector == 'Application':
-        if category != None and category not in prompts.cat_top[10]:
+        if category != None and not have_common_words(category, prompts.cat_top[10]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[10] + '. ' +
@@ -200,7 +206,7 @@ def generate_prompt(vector, parentvector, override, category=None):
             ask = (prompts.pre_prompt + prompts.cat_top[10] + '. ' +
                    prompts.post_prompt + '\n' + prompts.appdef)
     elif vector == 'Contribution':
-        if category != None and category not in prompts.cat_top[11]:
+        if category != None and not have_common_words(category, prompts.cat_top[11]):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + prompts.cat_top[11] + '. ' +
@@ -223,7 +229,7 @@ def generate_prompt(vector, parentvector, override, category=None):
         elif parentvector == "Support":
             subask = prompts.cat_subctrb[3]
             subcontribdef = prompts.supsubcontribdef
-        if category != None and category not in subask:
+        if category != None and not have_common_words(category, subask):
             ask = None
         elif override and override != 'Manual Override':
             ask = (prompts.pre_prompt + subask + '. ' +
@@ -320,7 +326,9 @@ def answer(vector, model, title, abstract, temperature, parentvector=None, overr
     debug = 0  # Debug bits: <params> <dummy> <response> <prompt>
     temperature = float(temperature)
     title = title.replace('_SLASH_', '/')
+    title = title.replace('_PERCENT_', '%')
     abstract = abstract.replace('_SLASH_', '/')
+    abstract = abstract.replace('_PERCENT_', '%')
     ask = generate_prompt(vector, parentvector, override)
     if debug & 8:
         print("Vector -> {0}".format(vector))
