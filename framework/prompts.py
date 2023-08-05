@@ -117,54 +117,45 @@ cat_top = [
         "Reserved", \
         "Attention, Auditory, Error, Frontal, Hybrid, Motor, Other, SCP, Visual, NA/TBD", \
         "Reserved", \
-        "Brain Switch, Clinical/Brain-State Monitoring, Communication, \
-        Cursor/Movement Control, Domotics/Environmental Control, \
-        Gaming/Computer Control, Image Triage, NA/TBD, Neurofeedback, \
-        Neuroprosthetic/Robotics, Offline/Online Target Selection, Other", \
-        "Applied Research, Basic Research, Experimental Development, Support", \
+        "Brain Switch, Clinical/Brain-State Monitoring, Communication, Cursor/Movement Control, Domotics/Environmental Control, Gaming/Computer Control, Image Triage, NA/TBD, Neurofeedback, Neuroprosthetic/Robotics, Offline/Online Target Selection, Other", \
+        "Applied Research, Basic Research, Experimental Development, Support, NA/TBD", \
         "Reserved"
         ]
 
 cat_rectech = [ \
-        "Electroencephalography (EEG), Electrocorticography (ECoG), Intracortical", \
-        "MEG", \
-        "Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near infrared spectroscopy (fNIRS)"
+        "Electroencephalography (EEG), Electrocorticography (ECoG), Intracortical, None", \
+        "MEG, None", \
+        "Functional magnetic resonance imaging (fMRI), Ultrasound, Functional near infrared spectroscopy (fNIRS), None", \
+        "None"
         ]
 
 cat_subpop = [ \
-        "Cat, Fly, Frog, Mouse, Primate, Rabbit, Rat, Sheep", \
-        "ALS, Brainstem Stroke, Cancer, Cerebral Palsy, Charcot-Marie-Tooth, \
-        Dystonia, Eating Disorders, Epilepsy, Locked-in (unspecified), MDD, \
-        Minimally Conscious State, Multiple, Muscular Dystrophy, Paraplegic, \
-        Persistant Vegetative State, Primary Lateral Sclerosis, Schizophrenia, \
-        Severe Motor Deficit, Spinal Cord Injury, Stroke, TBI, Tetraplegic, \
-        Tremor, ADHD", \
-        "Adults, Children, College Age, Infants, Seniors", \
-        "Cell Culture" \
+        "Cat, Fly, Frog, Mouse, Primate, Rabbit, Rat, Sheep, None", \
+        "ALS, Brainstem Stroke, Cancer, Cerebral Palsy, Charcot-Marie-Tooth, Dystonia, Eating Disorders, Epilepsy, Locked-in (unspecified), MDD, Minimally Conscious State, Multiple, Muscular Dystrophy, Paraplegic, Persistant Vegetative State, Primary Lateral Sclerosis, Schizophrenia, Severe Motor Deficit, Spinal Cord Injury, Stroke, TBI, Tetraplegic, Tremor, ADHD, None", \
+        "Adults, Children, College Age, Infants, Seniors, None", \
+        "Cell Culture, None", \
+        "None"
         ]
 
 cat_sigpdim = [ \
-        "Alpha", \
-        "AEP, ASSR, P300", \
-        "ERN, FRN", \
-        "Cognitive Tasks", \
-        "Alpha-SSVEP, Imagery Tasks-P300, Imagery Tasks-SSVEP, P300-SSVEP, \
-        P300-VEP", \
-        "Imagery Tasks, Movement", \
-        "NA/TBD", \
-        "Neurofeedback", \
-        "mVEP, N2pc, P300, RSVP, SSVEP, VEP" \
-        "NA/TBD", \
+        "Alpha, None", \
+        "AEP, ASSR, P300, None", \
+        "ERN, FRN, None", \
+        "Cognitive Tasks, None", \
+        "Alpha-SSVEP, Imagery Tasks-P300, Imagery Tasks-SSVEP, P300-SSVEP, P300-VEP, None", \
+        "Imagery Tasks, Movement, None", \
+        "None", \
+        "Neurofeedback, None", \
+        "mVEP, N2pc, P300, RSVP, SSVEP, VEP, None", \
+        "None", \
         ]
 
 cat_subctrb = [ \
-        "Clinical (assessment), Clinical (therapeutic), Collaborative, \
-        Healthy Population, Home Use, Independent Use, Other, Purpose", \
-        "Demographics, Ethics, Neural Signals, Other, \
-        Signal Measurement/Acquisition, Signal Modeling, User", \
-        "DSP, Feedback/Interface, Other, Signal Measurement/Acquisition, \
-        System, User", \
-        "Education, Other, Public Dataset, Tools/Software" \
+        "Clinical (assessment), Clinical (therapeutic), Collaborative, Healthy Population, Home Use, Independent Use, Other, Purpose, None", \
+        "Demographics, Ethics, Neural Signals, Other, Signal Measurement/Acquisition, Signal Modeling, User, None", \
+        "DSP, Feedback/Interface, Other, Signal Measurement/Acquisition, System, User, None", \
+        "Education, Other, Public Dataset, Tools/Software, None", \
+        "None", \
         ]
 
 def init():

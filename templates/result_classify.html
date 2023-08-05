@@ -353,15 +353,15 @@
         function update_dropdown_subpopulation(population) {
             options = ['Manual Override'];
             if (population == 'Animal') {
-                options = ['Manual Override', 'Cat', 'Fly', 'Frog', 'Mouse', 'Primate', 'Rabbit', 'Rat', 'Sheep'];
+                options = ['Manual Override', 'Cat', 'Fly', 'Frog', 'Mouse', 'Primate', 'Rabbit', 'Rat', 'Sheep', 'None'];
             } else if (population == 'Clinical') {
-                options = ['Manual Override', 'ALS', 'Brainstem Stroke', 'Cancer', 'Cerebral Palsy', 'Charcot-Marie-Tooth', 'Dystonia', 'Eating Disorders', 'Epilepsy', 'Locked-in (unspecified)', 'MDD', 'Minimally Conscious State', 'Multiple', 'Muscular Dystrophy', 'Paraplegic', 'Persistant Vegetative State', 'Primary Lateral Sclerosis', 'Schizophrenia', 'Severe Motor Deficit', 'Spinal Cord Injury', 'Stroke', 'TBI', 'Tetraplegic', 'Tremor', 'ADHD'];
+                options = ['Manual Override', 'ALS', 'Brainstem Stroke', 'Cancer', 'Cerebral Palsy', 'Charcot-Marie-Tooth', 'Dystonia', 'Eating Disorders', 'Epilepsy', 'Locked-in (unspecified)', 'MDD', 'Minimally Conscious State', 'Multiple', 'Muscular Dystrophy', 'Paraplegic', 'Persistant Vegetative State', 'Primary Lateral Sclerosis', 'Schizophrenia', 'Severe Motor Deficit', 'Spinal Cord Injury', 'Stroke', 'TBI', 'Tetraplegic', 'Tremor', 'ADHD', 'None'];
             } else if (population == 'Healthy') {
-                options = ['Manual Override', 'Adults', 'Children', 'College Age', 'Infants', 'Seniors'];
+                options = ['Manual Override', 'Adults', 'Children', 'College Age', 'Infants', 'Seniors', 'None'];
             } else if (population == 'Other') {
-                options = ['Manual Override', 'Cell Culture'];
+                options = ['Manual Override', 'Cell Culture', 'None'];
             } else if (population == 'NA or TBD') {
-                options = [''];
+                options = ['None'];
             }
             const list = document.getElementById('dropdown-subpopulation');
             list.innerHTML = '';
@@ -375,13 +375,13 @@
         function update_dropdown_recordingtech(rectype) {
             options = ['Manual Override'];
             if (rectype == 'Electrical') {
-                options = ['Manual Override', 'Electroencephalography (EEG)', 'Electrocorticography (ECoG)', 'Intracortical'];
+                options = ['Manual Override', 'Electroencephalography (EEG)', 'Electrocorticography (ECoG)', 'Intracortical', 'None'];
             } else if (rectype == 'Magnetic') {
-                options = ['Manual Override', 'MEG'];
+                options = ['Manual Override', 'MEG', 'None'];
             } else if (rectype == 'Metabolic') {
-                options = ['Manual Overide', 'Functional magnetic resonance imaging (fMRI)', 'Ultrasound', 'Functional near infrared spectroscopy (fNIRS)'];
+                options = ['Manual Overide', 'Functional magnetic resonance imaging (fMRI)', 'Ultrasound', 'Functional near infrared spectroscopy (fNIRS)', 'None'];
             } else if (rectype == 'NA or TBD') {
-                options = [''];
+                options = ['None'];
             }
             const list = document.getElementById('dropdown-recordingtech');
             list.innerHTML = '';
@@ -395,25 +395,25 @@
         function update_dropdown_paradigm(brainsignal) {
             options = ['Manual Override'];
             if (brainsignal == 'Attention') {
-                options = ['Manual Override', 'Alpha'];
+                options = ['Manual Override', 'Alpha', 'None'];
             } else if (brainsignal == 'Auditory') {
-                options = ['Manual Override', 'AEP', 'ASSR', 'P300'];
+                options = ['Manual Override', 'AEP', 'ASSR', 'P300', 'None'];
             } else if (brainsignal == 'Error') {
-                options = ['Manual Override', 'ERN', 'FRN'];
+                options = ['Manual Override', 'ERN', 'FRN', 'None'];
             } else if (brainsignal == 'Frontal') {
-                options = ['Manual Override', 'Cognitive Tasks'];
+                options = ['Manual Override', 'Cognitive Tasks', 'None'];
             } else if (brainsignal == 'Hybrid') {
-                options = ['Manual Override', 'Alpha-SSVEP', 'Imagery Tasks-P300', 'Imagery Tasks-SSVEP', 'P300-SSVEP', 'P300-VEP'];
+                options = ['Manual Override', 'Alpha-SSVEP', 'Imagery Tasks-P300', 'Imagery Tasks-SSVEP', 'P300-SSVEP', 'P300-VEP', 'None'];
             } else if (brainsignal == 'Motor') {
-                options = ['Manual Override', 'Imagery Tasks', 'Movement'];
+                options = ['Manual Override', 'Imagery Tasks', 'Movement', 'None'];
             } else if (brainsignal == 'Other') {
-                options = ['Manual Override', 'NA or TBD'];
+                options = ['Manual Override', 'None'];
             } else if (brainsignal == 'SCP') {
-                options = ['Manual Override', 'Neurofeedback'];
+                options = ['Manual Override', 'Neurofeedback', 'None'];
             } else if (brainsignal == 'Visual') {
-                options = ['Manual Override', 'mVEP', 'N2pc', 'P300', 'RSVP', 'SSVEP', 'VEP'];
+                options = ['Manual Override', 'mVEP', 'N2pc', 'P300', 'RSVP', 'SSVEP', 'VEP', 'None'];
             } else if (brainsignal == 'NA or TBD') {
-                options = [''];
+                options = ['None'];
             }
             const list = document.getElementById('dropdown-paradigm');
             list.innerHTML = '';
@@ -427,13 +427,15 @@
         function update_dropdown_subcontribution(contribution) {
             options = ['Manual Override'];
             if (contribution == 'Applied Research') {
-                options = ['Manual Override', 'Clinical (assessment)', 'Clinical (therapeutic)', 'Collaborative', 'Healthy Population', 'Home Use', 'Independent Use', 'Other', 'Purpose'];
+                options = ['Manual Override', 'Clinical (assessment)', 'Clinical (therapeutic)', 'Collaborative', 'Healthy Population', 'Home Use', 'Independent Use', 'Other', 'Purpose', 'None'];
             } else if (contribution == 'Basic Research') {
-                options = ['Manual Override', 'Demographics', 'Ethics', 'Neural Signals', 'Other', 'Signal Measurement or Acquisition', 'Signal Modeling', 'User'];
+                options = ['Manual Override', 'Demographics', 'Ethics', 'Neural Signals', 'Other', 'Signal Measurement or Acquisition', 'Signal Modeling', 'User', 'None'];
             } else if (contribution == 'Experimental Development') {
-                options = ['Manual Override', 'DSP', 'Feedback or Interface', 'Other', 'Signal Measurement or Acquisition', 'System', 'User'];
+                options = ['Manual Override', 'DSP', 'Feedback or Interface', 'Other', 'Signal Measurement or Acquisition', 'System', 'User', 'None'];
             } else if (contribution == 'Support') {
-                options = ['Manual Override', 'Education', 'Other', 'Public Dataset', 'Tools or Software'];
+                options = ['Manual Override', 'Education', 'Other', 'Public Dataset', 'Tools or Software', 'None'];
+            } else if (contribution == 'NA or TBD') {
+                options = ['None'];
             }
             const list = document.getElementById('dropdown-subcontribution');
             list.innerHTML = '';
@@ -554,6 +556,11 @@
         }
 
         function update_subcontribution(contribution, selected) {
+            if (contribution.includes('NA') || contribution.includes('TBD')) {
+                document.getElementById('subctrbcategory').innerHTML = 'None';
+                document.getElementById('subctrbreason').innerHTML = 'None';
+                return;
+            }
             fetch_data(`/answer/SubContribution/{{model|tojson}}/${title}/${abstract}/{{temperature|tojson}}/${contribution}/${selected}`, 'subctrbcategory', 'subctrbreason');
         }
 
@@ -562,11 +569,14 @@
             .then(function (response) {
                 return response.json();
             }).then(function (jsontext) {
-                document.getElementById('ctrbcategory').innerHTML = jsontext['category'];
+                contribution = jsontext['category']
+                if (contribution.includes('NA') || contribution.includes('TBD')) {
+                    contribution = 'NA or TBD';
+                }
+                document.getElementById('ctrbcategory').innerHTML = contribution;
                 document.getElementById('ctrbreason').innerHTML = jsontext['reason'];
                 //console.log('GET response text:');
                 //console.log(jsontext);
-                contribution = jsontext['category'];
                 update_subcontribution(contribution, 'Manual Override');
                 update_dropdown_subcontribution(contribution);
             });
@@ -719,7 +729,7 @@
             create_dropdown('dropdown-recordingtype', options, on_change_recordingtype);
 
             // RecordingTech
-            options = ['Manual Override', 'EEG', 'ECoG', 'Intracortical', 'MEG', 'fMRI', 'Ultrasound', 'fNIRS'];
+            options = ['Manual Override'];
             create_dropdown('dropdown-recordingtech', options, on_change_recordingtech);
 
             // BrainSignal
